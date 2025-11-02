@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ShopEase — Product Details</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Variables & base styles
+       ========================= */
+    :root{
+      --bg:#f6fbf8;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --primary:#4CAF50; /* primary green */
+      --primary-dark:#2f7a3f;
+      --radius:12px;
+      --shadow:0 16px 48px rgba(12,20,30,0.06);
+      font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;background:linear-gradient(180deg,#f0faf3 0%,var(--bg) 60%);color:#071127;-webkit-font-smoothing:antialiased}
+    a{color:var(--primary);text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* =========================
+       Header / Navbar (sticky)
+       ========================= */
+    header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,0.96);backdrop-filter:blur(6px);border-bottom:1px solid rgba(10,20,30,0.04)}
+    .nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:12px}
+    .brand{display:flex;gap:12px;align-items:center;font-weight:700;color:var(--primary-dark)}
+    .brand-mark{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--primary),#06b6a4);font-weight:900}
+    nav.primary{display:flex;gap:12px;align-items:center}
+    nav.primary a{padding:8px 10px;border-radius:8px;color:var(--muted);font-weight:600}
+    nav.primary a:hover{color:var(--primary-dark);background:rgba(76,175,80,0.06);transition:all .18s}
+    .cta{display:flex;gap:10px;align-items:center}
+    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;border:1px solid rgba(10,20,30,0.04)}
+    .btn.primary{background:var(--primary);color:#fff;box-shadow:0 10px 30px rgba(76,175,80,0.12)}
+    .cart-bubble{background:var(--primary);color:#fff;border-radius:999px;padding:6px 9px;font-weight:700;font-size:0.9rem;margin-left:6px}
+    @media (max-width:860px){ nav.primary{display:none} }
+
+    /* =========================
+       Product layout
+       ========================= */
+    .wrap{max-width:1100px;margin:22px auto;padding:0 20px;display:grid;gap:18px}
+    .product-grid{display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:start}
+    @media (max-width:980px){ .product-grid{ grid-template-columns:1fr } }
+
+    /* Left: main image */
+    .media-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);border:1px solid rgba(10,20,30,0.03)}
+    .main-image{width:100%;height:420px;border-radius:12px;background-size:cover;background-position:center;transition:transform .45s ease;will-change:transform}
+    .main-image:hover{transform:scale(1.03)}
+
+    /* Right: details */
+    .prod-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);border:1px solid rgba(10,20,30,0.03)}
+    .price{font-size:1.6rem;font-weight:800;color:var(--primary-dark);margin-top:6px}
+    .short-desc{color:var(--muted);margin-top:8px}
+    .actions{display:flex;gap:12px;margin-top:14px;align-items:center;flex-wrap:wrap}
+    .qty{display:flex;gap:8px;align-items:center}
+    .qty input{width:70px;padding:8px;border-radius:8px;border:1px solid rgba(10,20,30,0.06);text-align:center}
+
+    /* Tabs */
+    .tabs{margin-top:18px}
+    .tab-heads{display:flex;gap:8px;border-bottom:1px solid rgba(10,20,30,0.04)}
+    .tab-heads button{background:transparent;border:0;padding:10px 12px;border-radius:8px;margin-bottom:-1px;cursor:pointer;color:var(--muted);font-weight:700}
+    .tab-heads button.active{color:var(--primary-dark);background:rgba(76,175,80,0.06)}
+    .tab-content{padding:12px 6px;color:var(--muted)}
+
+    /* Related */
+    .related{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px}
+    .rel-card{background:var(--card);padding:10px;border-radius:10px;box-shadow:0 10px 30px rgba(10,20,30,0.04);cursor:pointer;transition:transform .18s,box-shadow .18s}
+    .rel-card:hover{transform:translateY(-6px);box-shadow:0 22px 50px rgba(10,20,30,0.08)}
+    .rel-thumb{height:110px;border-radius:8px;background-size:cover;background-position:center;margin-bottom:8px}
+
+    /* Toast */
+    .toast{position:fixed;right:18px;bottom:18px;background:var(--primary);color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 14px 40px rgba(76,175,80,0.12);display:none;z-index:120}
+
+    /* Footer */
+    footer{margin-top:18px;padding:18px;background:linear-gradient(180deg,#ffffff,var(--bg));border-top:1px solid rgba(10,20,30,0.04)}
+    .footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:0 20px}
+    .socials{display:flex;gap:8px}
+
+    /* Utilities */
+    .muted{color:var(--muted)}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header>
+    <div class="nav">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">SE</div>
+          <div>ShopEase</div>
+        </div>
+      </div>
+
+      <nav class="primary" aria-label="Primary navigation">
+        <a href="home.html">Home</a>
+        <a href="prod.html">Products</a>
+        <a href="deals.html">Deals</a>
+        <a href="about.html">About</a>
+        <a href="cont.html">Contact</a>
+        <a href="cart.html">Cart <span id="cartCount" class="cart-bubble">0</span></a>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Product header / title -->
+    <div id="titleBlock" class="fadeIn">
+      <h1 id="prodTitle">Product Details</h1>
+      <div id="prodTag" class="muted">Loading product…</div>
+    </div>
+
+    <!-- Product details area -->
+    <div class="product-grid">
+      <!-- Left: image/media -->
+      <div class="media-card">
+        <div id="mainImage" class="main-image" role="img" aria-label="Product image"></div>
+      </div>
+
+      <!-- Right: info & actions -->
+      <aside class="prod-card" id="detailsPanel">
+        <div>
+          <div id="prodName" style="font-size:1.3rem;font-weight:800">—</div>
+          <div id="prodPrice" class="price">—</div>
+          <div id="prodShort" class="short-desc">—</div>
+
+          <div class="actions">
+            <div class="qty">
+              <label for="buyQty" class="muted" style="font-weight:700">Qty</label>
+              <input id="buyQty" type="number" min="1" value="1" aria-label="Quantity">
+            </div>
+
+            <button id="addCart" class="btn primary">Add to Cart</button>
+            <button id="orderWA" class="btn ghost">Order on WhatsApp</button>
+          </div>
+
+          <div id="addFeedback" class="muted" style="margin-top:12px;display:none;font-weight:600">Added to cart</div>
+
+          <!-- Tabs: description / reviews / shipping -->
+          <div class="tabs" id="tabsBlock">
+            <div class="tab-heads" role="tablist">
+              <button data-tab="desc" class="active" role="tab">Description</button>
+              <button data-tab="reviews" role="tab">Reviews</button>
+              <button data-tab="shipping" role="tab">Shipping & Returns</button>
+            </div>
+            <div class="tab-content">
+              <div id="tab-desc" class="tab-panel">—</div>
+              <div id="tab-reviews" class="tab-panel hidden">—</div>
+              <div id="tab-shipping" class="tab-panel hidden">
+                <p class="muted">Standard shipping 3–7 business days. Returns accepted within 14 days in original condition.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+    </div>
+
+    <!-- Related products -->
+    <section style="margin-top:12px">
+      <h3>You May Also Like</h3>
+      <div id="related" class="related"></div>
+    </section>
+  </main>
+
+  <!-- Toast for confirmations -->
+  <div id="toast" class="toast" role="status" aria-live="polite">Added to cart</div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="brand-mark" style="width:36px;height:36px;font-size:0.9rem">SE</div>
+        <div style="font-weight:700">ShopEase</div>
+      </div>
+
+      <nav style="display:flex;gap:12px;align-items:center">
+        <a href="home.html">Home</a>
+        <a href="prod.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </nav>
+
+      <div class="socials">
+        <a href="#" title="Facebook">F</a>
+        <a href="#" title="Instagram">I</a>
+        <a href="#" title="Twitter">T</a>
+      </div>
+    </div>
+
+    <div style="max-width:1200px;margin:12px auto;padding:0 20px;color:var(--muted);font-size:0.95rem">
+      <div>© <span id="year"></span> ShopEase. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    /*
+      JavaScript:
+      - Sample product data
+      - Read product id from URL (?id=...)
+      - Render product details & related products
+      - Add to cart (localStorage) with confirmation toast
+      - Order on WhatsApp (open new tab)
+      - Tabs, smooth nav scroll, cart count
+    */
+
+    // Editable store WhatsApp number (E.164 without +)
+    const WA_PHONE = '2347012345678';
+
+    // Sample product data (would be fetched from API in real app)
+    const PRODUCTS = [
+      { id:'101', name:'Comfy Sneakers', price:79.00, img:'https://picsum.photos/id/21/800/600', short:'Cushioned everyday sneakers.', desc:'These sneakers provide all-day comfort with breathable fabric and supportive soles. Ideal for walking and casual wear.', reviews:[{name:'Maya', text:'Super comfy!'}, {name:'Liam', text:'Great value.'}] },
+      { id:'102', name:'Classic Watch', price:129.00, img:'https://picsum.photos/id/1011/800/600', short:'Timeless leather strap.', desc:'A classic timepiece with genuine leather strap and reliable quartz movement. Perfect for daily wear.', reviews:[{name:'Ethan', text:'Stylish and reliable.'}] },
+      { id:'103', name:'Noise Headphones', price:199.00, img:'https://picsum.photos/id/1060/800/600', short:'Active noise cancellation.', desc:'High-fidelity audio with ANC for immersive listening. Long battery life and comfortable ear cushions.', reviews:[{name:'Sara', text:'Sound is amazing.'}] },
+      { id:'104', name:'Everyday Backpack', price:59.00, img:'https://picsum.photos/id/180/800/600', short:'Durable and laptop-friendly.', desc:'Lightweight backpack with padded laptop compartment and ergonomic straps for daily commuting.', reviews:[{name:'Marcus', text:'Great for travel.'}] },
+      { id:'105', name:'Smart Mug', price:39.00, img:'https://picsum.photos/id/25/800/600', short:'Keeps drinks perfect.', desc:'Temperature-controlled mug that keeps beverages hot and ready for hours. Sleek, compact design.', reviews:[{name:'Olivia', text:'Warm coffee all day!'}] },
+      { id:'106', name:'Desk Lamp', price:29.00, img:'https://picsum.photos/id/30/800/600', short:'Adjustable brightness.', desc:'LED desk lamp with adjustable brightness and color temperature, perfect for workstations.', reviews:[{name:'Nina', text:'Very handy.'}] }
+    ];
+
+    const STORAGE_KEY = 'shopease_cart_v1';
+
+    // Helpers
+    function $(s){ return document.querySelector(s) }
+    function $all(s){ return Array.from(document.querySelectorAll(s)) }
+    function getParam(name){ const url = new URL(location.href); return url.searchParams.get(name) }
+    function fmt(v){ return '₦' + v.toFixed(2) }
+
+    // Load cart from localStorage
+    function loadCart(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') }catch(e){ return [] } }
+    function saveCart(cart){ localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)) }
+    function updateCartCount(){ const c = loadCart().reduce((s,i)=> s + (i.qty||0),0); $('#cartCount').textContent = c; }
+
+    // Show toast
+    function showToast(text='Added to cart'){ const t = $('#toast'); t.textContent = text; t.style.display = 'block'; clearTimeout(t._tm); t._tm = setTimeout(()=> t.style.display = 'none', 2400) }
+
+    // Render product or not found
+    function renderProductById(id){
+      const product = PRODUCTS.find(p => p.id === id);
+      if(!product){
+        // Product not found
+        $('#prodTitle').textContent = 'Product not found';
+        $('#prodTag').textContent = '';
+        $('#detailsPanel').innerHTML = `<div class="muted" style="padding:12px">No product matches id="${id}". <a href="prod.html">Back to products</a></div>`;
+        $('#mainImage').style.backgroundImage = "url('https://images.unsplash.com/photo-1545972152-9b8f7c2f8d2d?q=80&w=1200&auto=format&fit=crop')";
+        $('#tabsBlock').style.display = 'none';
+        return;
+      }
+
+      // Populate UI
+      $('#prodTitle').textContent = product.name;
+      $('#prodTag').textContent = product.short;
+      $('#prodName').textContent = product.name;
+      $('#prodPrice').textContent = fmt(product.price);
+      $('#prodShort').textContent = product.short;
+      $('#mainImage').style.backgroundImage = `url('${product.img}')`;
+      $('#mainImage').setAttribute('aria-label', product.name);
+      $('#tab-desc').textContent = product.desc || 'No detailed description available.';
+      $('#tab-reviews').innerHTML = product.reviews && product.reviews.length
+        ? product.reviews.map(r=>`<strong>${r.name}</strong><div class="muted">${r.text}</div>`).join('<hr style="border-top:1px solid rgba(10,20,30,0.04);margin:8px 0">')
+        : '<div class="muted">No reviews yet.</div>';
+
+      // Show related products
+      renderRelated(product.id);
+    }
+
+    // Related products: pick up to 4 others
+    function renderRelated(currentId){
+      const container = $('#related');
+      container.innerHTML = '';
+      const others = PRODUCTS.filter(p => p.id !== currentId).slice(0,4);
+      others.forEach(p => {
+        const el = document.createElement('div');
+        el.className = 'rel-card';
+        el.innerHTML = `
+          <div class="rel-thumb" style="background-image:url('${p.img}')"></div>
+          <div style="font-weight:700">${p.name}</div>
+          <div class="muted">${fmt(p.price)}</div>
+        `;
+        el.addEventListener('click', ()=> {
+          // navigate to same page with new id param
+          const url = new URL(location.href);
+          url.searchParams.set('id', p.id);
+          location.href = url.toString();
+        });
+        container.appendChild(el);
+      });
+    }
+
+    // Add to cart: save minimal product data
+    function addToCart(productId, qty){
+      const product = PRODUCTS.find(p => p.id === productId);
+      if(!product) return;
+      const cart = loadCart();
+      const idx = cart.findIndex(i=> i.id === productId);
+      if(idx === -1){
+        cart.push({ id: productId, name: product.name, price: product.price, img: product.img, qty: qty });
+      } else {
+        cart[idx].qty = (cart[idx].qty || 0) + qty;
+      }
+      saveCart(cart);
+      updateCartCount();
+      showToast('Added to cart!');
+      // small feedback near button
+      $('#addFeedback').style.display = 'block';
+      clearTimeout($('#addFeedback')._tm);
+      $('#addFeedback')._tm = setTimeout(()=> $('#addFeedback').style.display = 'none', 1800);
+    }
+
+    // Order on WhatsApp: open with prefilled message
+    function orderOnWhatsApp(productId, qty){
+      const p = PRODUCTS.find(x=> x.id === productId);
+      if(!p) return;
+      const text = `Hello ShopEase! I’m interested in buying ${p.name} x${qty} for ${fmt(p.price*qty)}.`;
+      const url = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank', 'noopener');
+    }
+
+    // Tabs behavior
+    function initTabs(){
+      const heads = $all('.tab-heads button');
+      heads.forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          heads.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          $all('.tab-panel').forEach(panel => panel.classList.add('hidden'));
+          const id = btn.dataset.tab;
+          $(`#tab-${id}`).classList.remove('hidden');
+        });
+      });
+    }
+
+    // Smooth scroll for header links
+    function initSmoothNav(){
+      $all('nav.primary a[href^="#"], footer a[href^="#"]').forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          const href = a.getAttribute('href');
+          if(href && href.startsWith('#')){
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+          }
+        });
+      });
+    }
+
+    // Initialize page
+    (function init(){
+      updateCartCount();
+      initTabs();
+      initSmoothNav();
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      const prodId = getParam('id') || '';
+      if(!prodId){
+        // no id provided -> show friendly message
+        $('#prodTitle').textContent = 'No product selected';
+        $('#prodTag').textContent = '';
+        $('#detailsPanel').innerHTML = `<div class="muted" style="padding:12px">No product id found in the URL. <a href="products.html">Browse products</a></div>`;
+        $('#mainImage').style.backgroundImage = "url('https://images.unsplash.com/photo-1495121605193-b116b5b09b26?q=80&w=1200&auto=format&fit=crop')";
+        return;
+      }
+
+      renderProductById(prodId);
+
+      // Wire action buttons
+      $('#addCart').addEventListener('click', ()=> {
+        const qty = Math.max(1, parseInt($('#buyQty').value || 1, 10));
+        addToCart(prodId, qty);
+      });
+
+      $('#orderWA').addEventListener('click', ()=> {
+        const qty = Math.max(1, parseInt($('#buyQty').value || 1, 10));
+        orderOnWhatsApp(prodId, qty);
+      });
+    })();
+
+    // Accessibility: Enter on rel-card will open product (delegation)
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' && document.activeElement && document.activeElement.classList.contains('rel-card')){
+        document.activeElement.click();
+      }
+    });
+  </script>
+</body>
+</html>

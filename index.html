@@ -1,0 +1,478 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ShopEase — Shop Smarter. Live Better.</title>
+
+  <style>
+    /* =========================
+       Variables & base styles
+       ========================= */
+    :root{
+      --bg:#f7fbff; --card:#ffffff; --muted:#6b7280;
+      --accent:#0ea5a4; /* teal/green accent (change to blue if desired) */
+      --accent-contrast:#052f2e;
+      --radius:12px; --glass:rgba(255,255,255,0.6);
+      --shadow:0 10px 30px rgba(16,24,40,0.08);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color-scheme: light;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; background:linear-gradient(180deg,#f0f9f8 0%,var(--bg) 60%); color:#0f172a;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      min-height:100vh; display:flex; flex-direction:column;
+    }
+    a{color:inherit; text-decoration:none}
+
+    /* =========================
+       Header / Navbar
+       ========================= */
+    header{
+      position:sticky; top:0; z-index:40;
+      backdrop-filter: blur(6px); background:rgba(255,255,255,0.8);
+      border-bottom:1px solid rgba(15,23,42,0.04);
+    }
+    .nav{
+      max-width:1200px; margin:0 auto; display:flex; align-items:center; gap:16px;
+      padding:12px 20px; align-items:center; justify-content:space-between;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.1rem; color:var(--accent-contrast)}
+    .logo{
+      height:40px; width:40px; border-radius:8px; background:linear-gradient(135deg,var(--accent),#06b6a4);
+      display:flex; align-items:center; justify-content:center; color:white; font-weight:800;
+      box-shadow:var(--shadow);
+    }
+    nav.primary{display:flex; gap:18px; align-items:center}
+    nav.primary a{color:var(--muted); font-weight:600; padding:8px; border-radius:8px}
+    nav.primary a:hover{color:var(--accent-contrast); background:rgba(14,165,164,0.06)}
+    .cta{display:flex; gap:10px; align-items:center}
+    .btn{
+      padding:10px 14px; border-radius:10px; border:0; cursor:pointer; font-weight:700;
+    }
+    .btn.signin{background:transparent; color:var(--accent-contrast); border:1px solid rgba(14,165,164,0.12)}
+    .btn.primary{background:var(--accent); color:white; box-shadow:0 8px 20px rgba(14,165,164,0.12)}
+
+    /* Mobile nav toggle */
+    .hamburger{display:none; background:transparent; border:0; padding:6px}
+    @media (max-width:860px){
+      nav.primary{display:none}
+      .hamburger{display:block}
+    }
+
+    /* =========================
+       Hero
+       ========================= */
+    .hero{
+      display:flex; align-items:center; justify-content:center; padding:56px 20px 40px;
+      max-width:1200px; margin:0 auto; width:100%;
+    }
+    .hero-inner{display:grid; grid-template-columns:1fr 420px; gap:28px; align-items:center; width:100%}
+    .hero-card{padding:28px; border-radius:16px; background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.8)); box-shadow:var(--shadow)}
+    h1{margin:0 0 12px; font-size:2.2rem; line-height:1.05}
+    p.lead{margin:0 0 18px; color:var(--muted)}
+    .hero-actions{display:flex; gap:12px; flex-wrap:wrap}
+    .hero-visual{
+      height:320px; border-radius:16px; background:
+      linear-gradient(180deg, rgba(4,120,87,0.06), rgba(6,182,164,0.03)),
+      url('https://images.unsplash.com/photo-1541807084-5c52b6b5b89f?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=3a0d3c07d6b0d11b6a0e8fc32b5b27f4');
+      background-size:cover; background-position:center; box-shadow:var(--shadow);
+      display:flex; align-items:flex-end; padding:18px; color:white; font-weight:700;
+    }
+
+    /* =========================
+       Product grid
+       ========================= */
+    section{max-width:1200px; margin:30px auto; padding:0 20px}
+    .section-title{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px}
+    .section-title h2{margin:0; font-size:1.1rem}
+    .grid{
+      display:grid; gap:18px;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+    }
+    @media (max-width:980px){ .hero-inner{grid-template-columns:1fr} .grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:600px){ .grid{grid-template-columns:1fr} .hero{padding:32px 16px} h1{font-size:1.5rem} .hero-visual{height:200px} }
+
+    .card{
+      background:var(--card); border-radius:14px; padding:14px; box-shadow:0 6px 20px rgba(16,24,40,0.04);
+      border:1px solid rgba(15,23,42,0.03); transition:transform .22s ease, box-shadow .22s ease, border-color .22s;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .card:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(16,24,40,0.08); border-color:rgba(14,165,164,0.18) }
+
+    .prod-img{height:160px; border-radius:10px; background-size:cover; background-position:center}
+    .prod-meta{display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .price{font-weight:800; color:var(--accent-contrast)}
+    .small-desc{color:var(--muted); font-size:0.92rem}
+    .add-btn{margin-top:auto; padding:10px; border-radius:10px; border:0; background:linear-gradient(90deg,var(--accent),#06b6a4); color:white; cursor:pointer; font-weight:700}
+
+    /* =========================
+       Testimonials
+       ========================= */
+    .testimonials{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:8px}
+    @media (max-width:980px){ .testimonials{grid-template-columns:1fr} }
+    .testimonial{background:linear-gradient(180deg,#fff,#fbfffd); padding:16px; border-radius:12px; box-shadow:var(--shadow); display:flex; gap:12px; align-items:flex-start}
+    .avatar{width:56px; height:56px; border-radius:50%; background-size:cover; background-position:center; flex-shrink:0; box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+
+    /* =========================
+       Footer
+       ========================= */
+    footer{background:linear-gradient(180deg,#ffffff, #f7faf9); padding:28px 20px; margin-top:40px; border-top:1px solid rgba(15,23,42,0.04)}
+    .footer-inner{max-width:1200px; margin:0 auto; display:flex; gap:20px; justify-content:space-between; align-items:center; flex-wrap:wrap}
+    .socials{display:flex; gap:12px}
+    .socials a{display:inline-flex; width:40px; height:40px; align-items:center; justify-content:center; border-radius:8px; background:rgba(14,165,164,0.06); color:var(--accent-contrast)}
+
+    .newsletter{display:flex; gap:8px; align-items:center}
+    .newsletter input{padding:10px 12px; border-radius:10px; border:1px solid rgba(15,23,42,0.06); outline:0}
+    .newsletter button{padding:10px 12px; border-radius:10px; border:0; background:var(--accent); color:#fff; font-weight:700; cursor:pointer}
+
+    /* =========================
+       Utility & animations
+       ========================= */
+    .fade-in{opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease}
+    .fade-in.visible{opacity:1; transform:none}
+    .muted{color:var(--muted)}
+    .container{max-width:1200px; margin:0 auto; padding:0 20px}
+  </style>
+</head>
+
+<body>
+  <!-- Header / Navbar -->
+  <header>
+    <div class="nav">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="logo">SE</div>
+        <div class="brand">ShopEase</div>
+      </div>
+
+      <nav class="primary" aria-label="Primary navigation">
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#deals">Deals</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="cta">
+        <button class="btn signin" id="signinBtn">Sign In</button>
+        <button class="btn primary" id="startBtn">Start Shopping</button>
+        <button class="hamburger" id="menuBtn" aria-label="Toggle menu" title="Toggle menu" style="display:none">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-inner">
+      <div class="hero-card fade-in">
+        <h1>Shop Smarter. Live Better.</h1>
+        <p class="lead">Discover amazing deals and shop from top brands worldwide.</p>
+
+        <div class="hero-actions">
+          <button class="btn primary" id="heroShop">Start Shopping</button>
+          <button class="btn signin" id="heroDeals">View Deals</button>
+        </div>
+
+        <div style="margin-top:18px;color:var(--muted);font-size:0.95rem">
+          Free returns • Fast shipping • Secure payments
+        </div>
+      </div>
+
+      <div class="hero-visual fade-in" aria-hidden="true">
+        <div style="background:linear-gradient(90deg, rgba(0,0,0,0.18), transparent); padding:12px; border-radius:8px;">
+          Best picks this week
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section id="products">
+    <div class="section-title container">
+      <h2>Featured products</h2>
+      <div class="muted">Hand-picked items you'll love</div>
+    </div>
+
+    <div class="grid container">
+      <!-- Product card template (6 items) -->
+      <article class="card fade-in" data-id="1">
+        <div class="prod-img" style="background-image:url('https://picsum.photos/id/21/600/400')"></div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-weight:700">Comfy Sneakers</div>
+            <div class="price">$79</div>
+          </div>
+          <div class="small-desc">Stylish everyday sneakers with cushioned support.</div>
+        </div>
+        <button class="add-btn" data-name="Comfy Sneakers">Add to Cart</button>
+      </article>
+
+      <article class="card fade-in" data-id="2">
+        <div class="prod-img" style="background-image:url('https://picsum.photos/id/1011/600/400')"></div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-weight:700">Classic Watch</div>
+            <div class="price">$129</div>
+          </div>
+          <div class="small-desc">Timeless design with water resistance and leather strap.</div>
+        </div>
+        <button class="add-btn" data-name="Classic Watch">Add to Cart</button>
+      </article>
+
+      <article class="card fade-in" data-id="3">
+        <div class="prod-img" style="background-image:url('https://picsum.photos/id/1060/600/400')"></div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-weight:700">Noise Headphones</div>
+            <div class="price">$199</div>
+          </div>
+          <div class="small-desc">Active noise cancellation and 30h battery life.</div>
+        </div>
+        <button class="add-btn" data-name="Noise Headphones">Add to Cart</button>
+      </article>
+
+      <article class="card fade-in" data-id="4">
+        <div class="prod-img" style="background-image:url('https://picsum.photos/id/180/600/400')"></div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-weight:700">Everyday Backpack</div>
+            <div class="price">$59</div>
+          </div>
+          <div class="small-desc">Durable, water-resistant, and laptop-friendly.</div>
+        </div>
+        <button class="add-btn" data-name="Everyday Backpack">Add to Cart</button>
+      </article>
+
+      <article class="card fade-in" data-id="5">
+        <div class="prod-img" style="background-image:url('https://picsum.photos/id/25/600/400')"></div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-weight:700">Smart Mug</div>
+            <div class="price">$39</div>
+          </div>
+          <div class="small-desc">Keeps drinks at the perfect temperature.</div>
+        </div>
+        <button class="add-btn" data-name="Smart Mug">Add to Cart</button>
+      </article>
+
+      <article class="card fade-in" data-id="6">
+        <div class="prod-img" style="background-image:url('https://picsum.photos/id/30/600/400')"></div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-weight:700">Desk Lamp</div>
+            <div class="price">$29</div>
+          </div>
+          <div class="small-desc">Adjustable brightness with a sleek metal finish.</div>
+        </div>
+        <button class="add-btn" data-name="Desk Lamp">Add to Cart</button>
+      </article>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section style="padding:20px 0;">
+    <div class="section-title container">
+      <h2>What customers say</h2>
+      <div class="muted">Real feedback from happy shoppers</div>
+    </div>
+
+    <div class="testimonials container">
+      <div class="testimonial fade-in">
+        <div class="avatar" style="background-image:url('https://randomuser.me/api/portraits/women/44.jpg')"></div>
+        <div>
+          <div style="font-weight:700">Maya R.</div>
+          <div class="muted" style="font-size:0.95rem">"Fast delivery and the quality exceeded my expectations. Will shop again!"</div>
+        </div>
+      </div>
+
+      <div class="testimonial fade-in">
+        <div class="avatar" style="background-image:url('https://randomuser.me/api/portraits/men/32.jpg')"></div>
+        <div>
+          <div style="font-weight:700">Ethan P.</div>
+          <div class="muted" style="font-size:0.95rem">"Great deals and responsive customer support. Five stars."</div>
+        </div>
+      </div>
+
+      <div class="testimonial fade-in">
+        <div class="avatar" style="background-image:url('https://randomuser.me/api/portraits/women/65.jpg')"></div>
+        <div>
+          <div style="font-weight:700">Sara L.</div>
+          <div class="muted" style="font-size:0.95rem">"The shopping experience is smooth and the app is intuitive."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="logo" style="height:36px;width:36px;font-size:0.9rem">SE</div>
+          <div style="font-weight:700">ShopEase</div>
+        </div>
+        <div class="muted">© <span id="year"></span> ShopEase. All rights reserved.</div>
+      </div>
+
+      <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+        <div class="newsletter">
+          <input id="newsletterEmail" type="email" placeholder="Your email" aria-label="Newsletter email">
+          <button id="subscribeBtn">Subscribe</button>
+        </div>
+
+        <div class="socials" aria-label="Social links">
+          <!-- Simple SVG icons -->
+          <a href="#" title="Facebook" aria-label="Facebook" id="fb"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5.01 3.66 9.16 8.44 9.93v-7.03H8.47v-2.9h2v-2.21c0-2 1.2-3.11 3.03-3.11.88 0 1.8.16 1.8.16v1.98h-1.01c-1 0-1.31.62-1.31 1.26v1.92h2.23l-.36 2.9h-1.87v7.03C18.34 21.23 22 17.08 22 12.07z" fill="currentColor"/></svg></a>
+          <a href="#" title="Instagram" aria-label="Instagram" id="ig"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2A3.8 3.8 0 1 0 15.8 12 3.8 3.8 0 0 0 12 8.2zM18.6 6.5a1.1 1.1 0 1 0 1.1 1.1 1.1 1.1 0 0 0-1.1-1.1z" fill="currentColor"/></svg></a>
+          <a href="#" title="Twitter" aria-label="Twitter" id="tw"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 5.92c-.64.28-1.33.47-2.05.55a3.52 3.52 0 0 0 1.55-1.94 7.05 7.05 0 0 1-2.23.85 3.52 3.52 0 0 0-6 3.21A10 10 0 0 1 3.16 4.7a3.52 3.52 0 0 0 1.09 4.7c-.53 0-1.04-.16-1.48-.4v.04a3.52 3.52 0 0 0 2.82 3.45c-.47.13-.98.2-1.5.2-.37 0-.73-.03-1.08-.1a3.52 3.52 0 0 0 3.29 2.44A7.06 7.06 0 0 1 2 19.54 10 10 0 0 0 7.29 21c6.63 0 10.26-5.5 10.26-10.27v-.47A7.3 7.3 0 0 0 22 5.92z" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Simple cart/toast element -->
+  <div id="toast" style="position:fixed;right:18px;bottom:18px;background:#0f172a;color:white;padding:12px 16px;border-radius:12px;display:none;box-shadow:0 8px 30px rgba(2,6,23,0.4)">Added to cart</div>
+
+ 
+  <script>
+    // =========================
+    // Simple interactions & animations
+    // =========================
+
+    // Update copyright year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth scroll to products when CTA pressed
+    document.querySelectorAll('#heroShop, #startBtn').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        document.getElementById('products').scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+    document.getElementById('heroDeals').addEventListener('click', ()=>{ location.hash = '#deals'; });
+
+    // Simple "Add to cart" demo — shows a toast and logs item
+    const toast = document.getElementById('toast');
+    document.querySelectorAll('.add-btn').forEach(b=>{
+      b.addEventListener('click', () => {
+        const name = b.getAttribute('data-name') || 'Item';
+        // Show toast
+        toast.textContent = `${name} added to cart`;
+        toast.style.display = 'block';
+        toast.style.opacity = '1';
+        setTimeout(()=>{ toast.style.opacity='0'; setTimeout(()=>toast.style.display='none',300); }, 1500);
+        // Demo cart stored in localStorage
+        const cart = JSON.parse(localStorage.getItem('demo_cart_v1') || '[]');
+        cart.push({ name, ts: Date.now() });
+        localStorage.setItem('demo_cart_v1', JSON.stringify(cart));
+      });
+    });
+
+    // Newsletter subscribe (demo)
+    document.getElementById('subscribeBtn').addEventListener('click', () => {
+      const email = document.getElementById('newsletterEmail').value.trim();
+      if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        alert('Please enter a valid email address.');
+        return;
+      }
+      // Demo: store subscription and show thank-you
+      const list = JSON.parse(localStorage.getItem('demo_news_v1') || '[]');
+      list.push({ email, ts: Date.now() });
+      localStorage.setItem('demo_news_v1', JSON.stringify(list));
+      alert('Thanks for subscribing!');
+      document.getElementById('newsletterEmail').value = '';
+    });
+
+    // IntersectionObserver to reveal elements with fade-in class
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(ent=>{
+        if(ent.isIntersecting){ ent.target.classList.add('visible'); io.unobserve(ent.target); }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+
+    // Simple responsive menu toggle (mobile)
+    const menuBtn = document.getElementById('menuBtn');
+    const primaryNav = document.querySelector('nav.primary');
+    // Show/hide menu button based on viewport
+    function updateMenuVisibility(){
+      if(window.innerWidth <= 860){ menuBtn.style.display = 'inline-block'; } else { menuBtn.style.display = 'none'; primaryNav.style.display = ''; }
+    }
+    updateMenuVisibility();
+    window.addEventListener('resize', updateMenuVisibility);
+
+    menuBtn.addEventListener('click', ()=>{
+      if(primaryNav.style.display === 'flex') primaryNav.style.display = 'none';
+      else primaryNav.style.display = 'flex';
+      primaryNav.style.flexDirection = 'column';
+    });
+
+    // Accessibility: Sign in button placeholder
+    document.getElementById('signinBtn').addEventListener('click', ()=>{ alert('Sign in flow (demo).'); });
+
+    // Minimal analytics/logging (demo): track clicks on featured products
+    document.querySelectorAll('.card[data-id]').forEach(c=>{
+      c.addEventListener('click', (ev) => {
+        // ignore clicks on Add to Cart button (handled separately)
+        if(ev.target.closest('.add-btn')) return;
+        const id = c.getAttribute('data-id');
+        const logs = JSON.parse(localStorage.getItem('demo_clicks_v1') || '[]');
+        logs.push({ id, ts: Date.now() });
+        localStorage.setItem('demo_clicks_v1', JSON.stringify(logs));
+        // open a simple product detail modal could go here (demo opens alert)
+        alert('Product details (demo).');
+      });
+    });
+
+    // Basic keyboard skip: focus content when pressing "s" for shopping
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === 's' && document.activeElement.tagName.toLowerCase() !== 'input'){
+        e.preventDefault();
+        document.getElementById('startBtn').focus();
+      }
+    });
+
+    /* =========================
+       New: Redirect listeners for signup/login
+       - Targets buttons and links by visible text (case-insensitive)
+       - All specified texts redirect to signup.html
+       - "Sign In" redirects to login.html
+       - Uses querySelectorAll and works across pages
+       ========================= */
+    (function addRedirectListeners(){
+      const signupTargets = new Set(['start shopping','add to cart','view deals','home','products','deals','about','contact']);
+      const loginTargets = new Set(['sign in']);
+
+      // Normalize text content
+      function textKey(el){
+        return (el.textContent || '').replace(/\s+/g,' ').trim().toLowerCase();
+      }
+
+      // Select all interactive elements likely to contain the target text
+      const candidates = document.querySelectorAll('a, button, [role="button"], input[type="button"], input[type="submit"]');
+
+      candidates.forEach(el => {
+        const key = textKey(el);
+        if(!key) return;
+
+        if(signupTargets.has(key)){
+          el.addEventListener('click', function(e){
+            // Allow native behavior for form submits that are not navigation (prevent and redirect)
+            e.preventDefault();
+            window.location.href = 'signup.html';
+          });
+        } else if(loginTargets.has(key)){
+          el.addEventListener('click', function(e){
+            e.preventDefault();
+            window.location.href = 'login.html';
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

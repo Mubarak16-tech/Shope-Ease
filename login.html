@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ShopEase — Login</title>
+  <style>
+    /* ===== Variables & base ===== */
+    :root{
+      --bg: #f3faf8;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent: #0ea5a4; /* accent (green) */
+      --accent-dark: #057a6f;
+      --danger: #dc2626;
+      --radius:14px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:linear-gradient(180deg,#eefaf8 0%,var(--bg) 60%);
+      display:flex; align-items:center; justify-content:center; padding:24px;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--accent); text-decoration:none}
+
+    /* ===== Card / layout ===== */
+    .card{
+      width:100%; max-width:420px; background:var(--card); border-radius:var(--radius);
+      box-shadow:0 12px 40px rgba(10,20,30,0.08); padding:28px; border:1px solid rgba(7,16,20,0.04);
+      transform-origin:center; overflow:hidden;
+    }
+    header{display:flex; flex-direction:column; gap:8px; align-items:center; margin-bottom:12px}
+    .logo{display:flex; align-items:center; gap:10px; font-weight:800; color:var(--accent-dark)}
+    .brand-mark{
+      width:44px; height:44px; border-radius:10px; background:linear-gradient(135deg,var(--accent),#06b6a4);
+      display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900;
+    }
+    h1{margin:0; font-size:1.4rem}
+    p.lead{margin:0; color:var(--muted); font-size:0.95rem}
+
+    /* ===== Form ===== */
+    form{display:flex; flex-direction:column; gap:12px; margin-top:6px}
+    label{font-size:0.85rem; color:#0f172a; margin-bottom:6px; display:block}
+    .field{display:flex; gap:8px; align-items:center; background:#fbfeff; padding:10px; border-radius:10px; border:1px solid rgba(7,16,20,0.04)}
+    input[type="email"], input[type="password"]{
+      border:0; outline:0; background:transparent; width:100%; font-size:1rem; color:#0f172a;
+    }
+    .controls{display:flex; align-items:center; justify-content:space-between; gap:8px}
+    .checkbox{display:flex; gap:8px; align-items:center; color:var(--muted); font-size:0.92rem}
+    .forgot{font-size:0.92rem; color:var(--muted)}
+    .forgot a{color:var(--muted)}
+    .error{color:var(--danger); font-size:0.85rem; margin-top:6px}
+    .hidden{display:none}
+
+    /* button & spinner */
+    .btn{
+      width:100%; padding:12px 14px; border:0; border-radius:10px; background:var(--accent); color:#fff; font-weight:700;
+      cursor:pointer; display:inline-flex; gap:10px; align-items:center; justify-content:center;
+    }
+    .btn:disabled{opacity:0.6; cursor:not-allowed}
+    .spinner{
+      width:16px; height:16px; border-radius:50%; border:2px solid rgba(255,255,255,0.35); border-top-color:#fff;
+      animation:spin .9s linear infinite; display:inline-block;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* footer */
+    .foot{margin-top:8px; text-align:center; color:var(--muted); font-size:0.92rem}
+
+    /* fade-in animation for elements */
+    .fade-in{opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease}
+    .fade-in.visible{opacity:1; transform:none}
+
+    /* responsive tweaks */
+    @media (max-width:420px){
+      .card{padding:20px}
+      h1{font-size:1.2rem}
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== Login card ===== -->
+  <main class="card" role="main" aria-labelledby="title">
+    <!-- Header with logo -->
+    <header>
+      <div class="logo fade-in" id="logoBlock">
+        <div class="brand-mark">SE</div>
+        <div style="font-weight:800">ShopEase</div>
+      </div>
+
+      <div class="fade-in" id="welcomeBlock">
+        <h1 id="title">Welcome Back!</h1>
+        <p class="lead">Login to continue shopping.</p>
+      </div>
+    </header>
+
+    <!-- Login form -->
+    <form id="loginForm" novalidate>
+      <!-- Email -->
+      <div>
+        <label for="email">Email</label>
+        <div class="field fade-in" data-anim>
+          <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="username" required>
+        </div>
+        <div id="emailError" class="error hidden" aria-live="polite"></div>
+      </div>
+
+      <!-- Password with show toggle -->
+      <div>
+        <label for="password">Password</label>
+        <div class="field fade-in" style="align-items:center" data-anim>
+          <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+          <button type="button" id="togglePwd" aria-label="Show password" title="Show password" style="background:transparent;border:0;color:var(--muted);font-weight:700;cursor:pointer">Show</button>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+          <label class="checkbox"><input id="remember" type="checkbox"> Remember Me</label>
+          <div class="forgot"><a href="forget.html">Forgot Password?</a></div>
+        </div>
+        <div id="pwdError" class="error hidden" aria-live="polite"></div>
+      </div>
+
+      <!-- Login button -->
+      <div class="fade-in" data-anim>
+        <button id="loginBtn" class="btn" type="submit" disabled>
+          <span id="btnContent">Login</span>
+        </button>
+      </div>
+
+      <!-- Footer links -->
+      <div class="foot fade-in" style="margin-top:10px" data-anim>
+        Don't have an account? <a href="signup.html">Sign Up</a>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    // ===== Elements =====
+    const form = document.getElementById('loginForm');
+    const emailEl = document.getElementById('email');
+    const pwdEl = document.getElementById('password');
+    const toggleBtn = document.getElementById('togglePwd');
+    const loginBtn = document.getElementById('loginBtn');
+    const btnContent = document.getElementById('btnContent');
+    const emailError = document.getElementById('emailError');
+    const pwdError = document.getElementById('pwdError');
+    const rememberEl = document.getElementById('remember');
+
+    // Email regex (simple)
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // ===== Utility: show/clear errors =====
+    function showError(el, msg){
+      el.textContent = msg;
+      el.classList.remove('hidden');
+    }
+    function clearErrors(){
+      [emailError, pwdError].forEach(e => { e.textContent = ''; e.classList.add('hidden'); });
+    }
+
+    // ===== Validate form and enable/disable button =====
+    function validateForm(){
+      const email = emailEl.value.trim();
+      const pwd = pwdEl.value;
+      const emailValid = emailPattern.test(email);
+      const pwdValid = pwd.length > 0;
+      // Enable only when both valid
+      loginBtn.disabled = !(emailValid && pwdValid);
+      return { email, pwd, emailValid, pwdValid };
+    }
+
+    // Validate on input
+    [emailEl, pwdEl].forEach(el => el.addEventListener('input', () => {
+      clearErrors();
+      validateForm();
+    }));
+
+    // ===== Show / hide password toggle =====
+    toggleBtn.addEventListener('click', () => {
+      const isHidden = pwdEl.type === 'password';
+      pwdEl.type = isHidden ? 'text' : 'password';
+      toggleBtn.textContent = isHidden ? 'Hide' : 'Show';
+      toggleBtn.setAttribute('aria-pressed', String(isHidden));
+      pwdEl.focus();
+    });
+
+    // ===== Submit handler (client-side simulation) =====
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      clearErrors();
+
+      const { email, pwd, emailValid, pwdValid } = validateForm();
+
+      // Basic validation with user-friendly messages
+      if(!email){
+        showError(emailError, 'Email is required.');
+        emailEl.focus();
+        return;
+      }
+      if(!emailValid){
+        showError(emailError, 'Enter a valid email address.');
+        emailEl.focus();
+        return;
+      }
+      if(!pwd){
+        showError(pwdError, 'Password is required.');
+        pwdEl.focus();
+        return;
+      }
+
+      // Disable form and show logging state
+      loginBtn.disabled = true;
+      btnContent.innerHTML = '<span class="spinner" aria-hidden="true"></span> Logging in...';
+
+      // Simulate authentication delay
+      setTimeout(() => {
+        // For demo: treat non-empty fields as success
+        alert('Login successful! Redirecting...');
+        // Optionally save remembered email
+        if(rememberEl.checked) localStorage.setItem('savedEmail', email);
+        else localStorage.removeItem('savedEmail');
+
+        // Simulate redirect after 2 seconds
+        setTimeout(() => {
+          location.href = 'home.html'; // redirect to home (demo)
+        }, 1200);
+      }, 1400);
+    });
+
+    // ===== Pre-fill remembered email (if any) =====
+    const saved = localStorage.getItem('savedEmail');
+    if(saved){ emailEl.value = saved; validateForm(); rememberEl.checked = true; }
+
+    // ===== Fade-in animations (staggered) =====
+    window.addEventListener('DOMContentLoaded', () => {
+      // Add visible class to elements with [data-anim] in a short stagger
+      const els = Array.from(document.querySelectorAll('[data-anim], #logoBlock, #welcomeBlock'));
+      els.forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), 80 * i);
+      });
+    });
+
+    // ===== Accessibility: Enter key on checkbox doesn't submit unexpectedly =====
+    rememberEl.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') e.preventDefault();
+    });
+  </script>
+</body>
+</html>

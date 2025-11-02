@@ -1,0 +1,307 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ShopEase — Sign Up</title>
+  <style>
+    /* =========================
+       Variables & Base Styles
+       ========================= */
+    :root{
+      --bg:#f4fbfa;
+      --card:#ffffff;
+      --accent:#0ea5a4;        /* primary (green) */
+      --accent-dark:#057a6f;
+      --muted:#6b7280;
+      --danger:#dc2626;
+      --radius:14px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg,#eef9f7 0%,var(--bg) 60%); padding:24px;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      color:#0f172a;
+    }
+    a{color:var(--accent); text-decoration:none}
+
+    /* =========================
+       Card layout
+       ========================= */
+    .card{
+      width:100%; max-width:420px; border-radius:var(--radius); background:var(--card);
+      box-shadow:0 14px 40px rgba(8,15,20,0.07); padding:26px; border:1px solid rgba(7,16,20,0.04);
+      transform-origin:center;
+      /* fade-in */
+      opacity:0; transform:translateY(10px); transition:opacity .45s ease, transform .45s ease;
+    }
+    .card.visible{ opacity:1; transform:none; }
+
+    header{display:flex; flex-direction:column; gap:8px; align-items:center; margin-bottom:12px}
+    .brand{display:flex; gap:10px; align-items:center; font-weight:800}
+    .brand-mark{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--accent),#06b6a4);font-weight:900}
+
+    h1{margin:0;font-size:1.35rem}
+    p.lead{margin:0;color:var(--muted);font-size:0.95rem;text-align:center}
+
+    /* =========================
+       Form styles
+       ========================= */
+    form{display:grid; gap:12px; margin-top:8px}
+    label{font-size:0.85rem;color:#0f172a;margin-bottom:6px;display:block}
+    .input{
+      display:flex; align-items:center; gap:8px; padding:10px; border-radius:10px;
+      background:#fbfeff; border:1px solid rgba(7,16,20,0.04);
+    }
+    input[type="text"], input[type="email"], input[type="password"]{
+      border:0; outline:0; background:transparent; width:100%; font-size:1rem; color:#0f172a;
+    }
+    .checkbox{display:flex; gap:8px; align-items:center; color:var(--muted); font-size:0.92rem}
+    .error{color:var(--danger); font-size:0.85rem; margin-top:6px; display:none}
+    .error.visible{display:block}
+
+    /* button */
+    .btn{
+      width:100%; padding:12px; border-radius:10px; border:0; cursor:pointer;
+      background:var(--accent); color:#fff; font-weight:700; transition:transform .12s ease, box-shadow .12s;
+    }
+    .btn:disabled{opacity:.6; cursor:not-allowed; transform:none}
+    .btn:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 10px 30px rgba(14,165,164,0.12) }
+
+    .muted{color:var(--muted)}
+
+    /* success message */
+    .success{
+      display:none; padding:12px; border-radius:10px; background:#ecfdf5; color:#065f46; font-weight:600; text-align:center;
+    }
+    .success.visible{display:block}
+
+    /* responsive */
+    @media (max-width:420px){
+      .card{padding:18px}
+      h1{font-size:1.15rem}
+    }
+  </style>
+</head>
+<body>
+  <!--
+    Sign-up card centered on the page.
+    Contains header, registration form, validation messages and post-success flow.
+  -->
+  <main class="card" id="card" role="main" aria-labelledby="title">
+    <!-- Page header -->
+    <header>
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">SE</div>
+        <div>ShopEase</div>
+      </div>
+      <div>
+        <h1 id="title">Create an Account</h1>
+        <p class="lead">Join ShopEase and start shopping smarter.</p>
+      </div>
+    </header>
+
+    <!-- Registration form -->
+    <form id="signupForm" novalidate>
+      <!-- Full name -->
+      <div>
+        <label for="name">Full name</label>
+        <div class="input">
+          <input id="name" name="name" type="text" placeholder="Jane Doe" autocomplete="name" required>
+        </div>
+        <div id="nameError" class="error" aria-live="polite"></div>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label for="email">Email</label>
+        <div class="input">
+          <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required>
+        </div>
+        <div id="emailError" class="error" aria-live="polite"></div>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label for="password">Password</label>
+        <div class="input">
+          <input id="password" name="password" type="password" placeholder="Create a password" autocomplete="new-password" required>
+        </div>
+        <div id="pwdError" class="error" aria-live="polite"></div>
+      </div>
+
+      <!-- Confirm password -->
+      <div>
+        <label for="confirm">Confirm Password</label>
+        <div class="input">
+          <input id="confirm" name="confirm" type="password" placeholder="Repeat password" autocomplete="new-password" required>
+        </div>
+        <div id="confirmError" class="error" aria-live="polite"></div>
+      </div>
+
+      <!-- Terms -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+        <label class="checkbox"><input id="terms" type="checkbox"> I agree to the <a href="#" target="_blank">Terms &amp; Conditions</a></label>
+      </div>
+      <div id="termsError" class="error" aria-live="polite"></div>
+
+      <!-- Sign up button -->
+      <div>
+        <button id="signupBtn" class="btn" type="submit" disabled>
+          <span id="btnText">Sign Up</span>
+        </button>
+      </div>
+
+      <!-- Success message -->
+      <div id="successMsg" class="success" role="status" aria-live="polite">Account created successfully!</div>
+
+      <!-- Already have an account -->
+      <div style="text-align:center;margin-top:10px;color:var(--muted)">
+        Already have an account? <a href="login.html">Login</a>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    /* =========================
+       Elements
+       ========================= */
+    const card = document.getElementById('card');
+    const form = document.getElementById('signupForm');
+    const nameEl = document.getElementById('name');
+    const emailEl = document.getElementById('email');
+    const pwdEl = document.getElementById('password');
+    const confEl = document.getElementById('confirm');
+    const termsEl = document.getElementById('terms');
+
+    const signupBtn = document.getElementById('signupBtn');
+    const btnText = document.getElementById('btnText');
+    const successMsg = document.getElementById('successMsg');
+
+    // Error elements
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const pwdError = document.getElementById('pwdError');
+    const confirmError = document.getElementById('confirmError');
+    const termsError = document.getElementById('termsError');
+
+    /* =========================
+       Utility functions
+       ========================= */
+    // simple email pattern for client-side validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // show/hide error message
+    function showError(el, msg){
+      el.textContent = msg;
+      el.classList.add('visible');
+      el.classList.add('error'); // ensure styling
+      el.style.display = 'block';
+    }
+    function clearError(el){
+      el.textContent = '';
+      el.style.display = 'none';
+    }
+    function clearAllErrors(){
+      [nameError,emailError,pwdError,confirmError,termsError].forEach(clearError);
+    }
+
+    // enable/disable sign-up button depending on validity
+    function validateForm(){
+      const name = nameEl.value.trim();
+      const email = emailEl.value.trim();
+      const pwd = pwdEl.value;
+      const conf = confEl.value;
+      const terms = termsEl.checked;
+
+      const nameOk = name.length > 1;
+      const emailOk = emailPattern.test(email);
+      const pwdOk = pwd.length >= 8;
+      const matchOk = pwd === conf && conf.length > 0;
+
+      const formValid = nameOk && emailOk && pwdOk && matchOk && terms;
+      signupBtn.disabled = !formValid;
+      return { nameOk, emailOk, pwdOk, matchOk, terms };
+    }
+
+    /* =========================
+       Event listeners: realtime validation
+       ========================= */
+    [nameEl, emailEl, pwdEl, confEl, termsEl].forEach(el => {
+      el.addEventListener('input', () => {
+        clearAllErrors();
+        validateForm();
+      });
+      el.addEventListener('change', () => {
+        clearAllErrors();
+        validateForm();
+      });
+    });
+
+    /* =========================
+       Submit handler
+       ========================= */
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      clearAllErrors();
+
+      const name = nameEl.value.trim();
+      const email = emailEl.value.trim();
+      const pwd = pwdEl.value;
+      const conf = confEl.value;
+      const terms = termsEl.checked;
+
+      // Field checks with messages
+      if(!name){ showError(nameError, 'Full name is required.'); nameEl.focus(); return; }
+      if(name.length < 2){ showError(nameError, 'Enter your full name.'); nameEl.focus(); return; }
+
+      if(!email){ showError(emailError, 'Email is required.'); emailEl.focus(); return; }
+      if(!emailPattern.test(email)){ showError(emailError, 'Enter a valid email address.'); emailEl.focus(); return; }
+
+      if(!pwd){ showError(pwdError, 'Password is required.'); pwdEl.focus(); return; }
+      if(pwd.length < 8){ showError(pwdError, 'Use at least 8 characters for the password.'); pwdEl.focus(); return; }
+
+      if(!conf){ showError(confirmError, 'Please confirm your password.'); confEl.focus(); return; }
+      if(pwd !== conf){ showError(confirmError, 'Passwords do not match.'); confEl.focus(); return; }
+
+      if(!terms){ showError(termsError, 'You must agree to the Terms & Conditions.'); return; }
+
+      // All client-side validations passed — simulate signup
+      signupBtn.disabled = true;
+      btnText.textContent = 'Creating account...';
+
+      // Simulate server delay
+      setTimeout(() => {
+        // Show success message
+        successMsg.classList.add('visible');
+        successMsg.classList.add('success');
+
+        // Optionally store demo user (localStorage) — demo only
+        try {
+          const usersKey = 'demo_users_v1';
+          const users = JSON.parse(localStorage.getItem(usersKey) || '[]');
+          users.push({ name, email, password: pwd, ts: Date.now() });
+          localStorage.setItem(usersKey, JSON.stringify(users));
+        } catch(e){ /* ignore storage errors in demo */ }
+
+        // After 2 seconds simulate redirect to login
+        setTimeout(() => {
+          // Redirect to login page (demo)
+          location.href = 'login.html';
+        }, 2000);
+      }, 900);
+    });
+
+    /* =========================
+       Initial UI polish: reveal card
+       ========================= */
+    window.requestAnimationFrame(() => {
+      setTimeout(() => card.classList.add('visible'), 60);
+    });
+  </script>
+</body>
+</html>

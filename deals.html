@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ShopEase — Flash Sales & Hot Deals</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Variables & base styles
+       ========================= */
+    :root{
+      --bg: #f6fbf8;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --primary: #4CAF50; /* green primary */
+      --accent: #FF3B3B;  /* discount badge red */
+      --shadow: 0 14px 40px rgba(12,20,30,0.06);
+      --radius: 12px;
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;background:linear-gradient(180deg,#f0faf3 0%,var(--bg) 60%);color:#071127}
+    a{color:var(--primary);text-decoration:none}
+    img{max-width:100%;display:block;border-radius:8px}
+
+    /* =========================
+       Header / Nav (sticky)
+       ========================= */
+    header{
+      position:sticky;top:0;z-index:60;background:rgba(255,255,255,0.96);
+      backdrop-filter:blur(6px);border-bottom:1px solid rgba(10,20,30,0.04)
+    }
+    .nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--primary)}
+    .brand-mark{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--primary),#06b6a4);font-weight:900}
+    nav.primary{display:flex;gap:12px;align-items:center}
+    nav.primary a{padding:8px 10px;border-radius:8px;color:var(--muted);font-weight:600}
+    nav.primary a:hover{color:var(--primary);background:rgba(76,175,80,0.06);transition:all .18s}
+    .cta{display:flex;gap:10px;align-items:center}
+    .btn{padding:9px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;border:1px solid rgba(10,20,30,0.04)}
+    .btn.primary{background:var(--primary);color:#fff;box-shadow:0 10px 30px rgba(76,175,80,0.12)}
+
+    /* =========================
+       Hero / banner with countdown
+       ========================= */
+    .hero{
+      max-width:1200px;margin:18px auto;padding:28px 20px;border-radius:14px;display:grid;gap:12px;
+      align-items:center;background:linear-gradient(90deg,rgba(76,175,80,0.06),rgba(255,255,255,0.9));
+      box-shadow:var(--shadow)
+    }
+    .hero-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+    .hero h1{margin:0;font-size:1.6rem}
+    .hero p.lead{margin:4px 0 0;color:var(--muted)}
+    .countdown{display:flex;gap:8px;align-items:center;margin-top:8px}
+    .time-pill{background:#fff;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(10,20,30,0.04);min-width:64px;text-align:center;font-weight:700}
+    .count-label{font-size:0.85rem;color:var(--muted);text-align:center;margin-top:6px}
+
+    /* =========================
+       Controls: filters & sort
+       ========================= */
+    .controls{max-width:1200px;margin:12px auto;padding:0 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .filters{display:flex;gap:8px;align-items:center}
+    .chip{padding:8px 10px;border-radius:999px;border:1px solid rgba(10,20,30,0.04);cursor:pointer;background:#fff}
+    .chip.active{background:linear-gradient(90deg,rgba(76,175,80,0.08),#fff);border-color:rgba(76,175,80,0.14)}
+
+    .sort{margin-left:auto;display:flex;gap:8px;align-items:center}
+
+    /* =========================
+       Product grid
+       ========================= */
+    .grid{max-width:1200px;margin:12px auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+    .card{background:var(--card);border-radius:12px;padding:12px;border:1px solid rgba(10,20,30,0.03);box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .24s,box-shadow .24s}
+    .card:hover{transform:translateY(-8px);box-shadow:0 26px 60px rgba(10,20,30,0.12);border-color:rgba(76,175,80,0.12)}
+    .thumb{height:160px;border-radius:8px;background-size:cover;background-position:center;transition:transform .36s}
+    .card:hover .thumb{transform:scale(1.03)}
+    .meta{padding:8px 2px}
+    .name{font-weight:700}
+    .prices{display:flex;gap:8px;align-items:center;margin-top:6px}
+    .orig{color:var(--muted);text-decoration:line-through;font-size:0.95rem}
+    .disc{color:var(--primary);font-weight:800}
+    .badge{position:absolute;left:12px;top:12px;background:var(--accent);color:#fff;padding:6px 8px;border-radius:8px;font-weight:800;font-size:0.85rem;box-shadow:0 8px 20px rgba(255,59,59,0.12)}
+
+    .card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+    .viewBtn{padding:8px 10px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--primary),#06b6a4);color:#fff;cursor:pointer}
+
+    /* animation on load */
+    .fadeUp{animation:fadeUp .42s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+    /* responsive */
+    @media (max-width:760px){
+      .hero h1{font-size:1.3rem}
+      .thumb{height:140px}
+    }
+
+    /* footer */
+    footer{margin-top:18px;padding:18px;background:linear-gradient(180deg,#ffffff,var(--bg));border-top:1px solid rgba(10,20,30,0.04)}
+    .footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:0 20px}
+    .newsletter{display:flex;gap:8px;align-items:center}
+    .newsletter input{padding:10px;border-radius:10px;border:1px solid rgba(10,20,30,0.06)}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="nav">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="brand" aria-label="ShopEase">
+          <div class="brand-mark" aria-hidden="true">SE</div>
+          <div>ShopEase</div>
+        </div>
+      </div>
+
+      <nav class="primary" aria-label="Main navigation">
+        <a href="home.html">Home</a>
+        <a href="prod.html">Products</a>
+        <a href="deals.html">Deals</a>
+        <a href="about.html">About</a>
+        <a href="cont.html">Contact</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- Hero / Banner with global countdown -->
+  <section class="hero" aria-label="Flash Sales banner">
+    <div class="hero-inner">
+      <div>
+        <h1>Flash Sales & Hot Deals</h1>
+        <p class="lead">Grab amazing discounts before they run out!</p>
+
+        <div class="countdown" aria-live="polite" title="Time remaining for the flash sale">
+          <div>
+            <div id="days" class="time-pill">00</div>
+            <div class="count-label">Days</div>
+          </div>
+          <div>
+            <div id="hours" class="time-pill">00</div>
+            <div class="count-label">Hours</div>
+          </div>
+          <div>
+            <div id="minutes" class="time-pill">00</div>
+            <div class="count-label">Minutes</div>
+          </div>
+          <div>
+            <div id="seconds" class="time-pill">00</div>
+            <div class="count-label">Seconds</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="min-width:220px;text-align:right">
+        <img src="https://images.unsplash.com/photo-1600180758890-0f26f7f6d3b8?q=80&w=800&auto=format&fit=crop" alt="Deals banner" style="width:220px;border-radius:10px;box-shadow:0 12px 36px rgba(10,20,30,0.06)">
+      </div>
+    </div>
+  </section>
+
+  <!-- Filters and sorting -->
+  <div class="controls" aria-hidden="false">
+    <div class="filters" role="toolbar" aria-label="Filter deals">
+      <button class="chip active" data-cat="all">All</button>
+      <button class="chip" data-cat="electronics">Electronics</button>
+      <button class="chip" data-cat="fashion">Fashion</button>
+      <button class="chip" data-cat="home">Home</button>
+      <button class="chip" data-cat="beauty">Beauty</button>
+    </div>
+
+    <div class="sort">
+      <label for="sortSelect" class="muted">Sort</label>
+      <select id="sortSelect" style="padding:8px;border-radius:8px;border:1px solid rgba(10,20,30,0.06)">
+        <option value="featured">Featured</option>
+        <option value="discount">Discount %</option>
+        <option value="price_asc">Price ↑</option>
+        <option value="price_desc">Price ↓</option>
+        <option value="newest">Newest</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Products grid -->
+  <section class="grid" id="dealsGrid" aria-label="Discounted products">
+    <!-- JS will populate cards -->
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="brand-mark" style="width:36px;height:36px;font-size:0.9rem">SE</div>
+        <div style="font-weight:700">ShopEase</div>
+      </div>
+
+      <nav style="display:flex;gap:12px;align-items:center">
+        <a href="home.html">Home</a>
+        <a href="prod.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="#">Privacy</a>
+        <a href="cont.html">Contact</a>
+      </nav>
+
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <div class="newsletter">
+          <input id="footEmail" type="email" placeholder="Your email" aria-label="Newsletter email">
+          <button id="footSubscribe" class="btn primary">Subscribe</button>
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center">
+          <a href="#" aria-label="Facebook" style="width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(76,175,80,0.06)">F</a>
+          <a href="#" aria-label="Instagram" style="width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(76,175,80,0.06)">I</a>
+          <a href="#" aria-label="Twitter" style="width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(76,175,80,0.06)">T</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="max-width:1200px;margin:12px auto;padding:0 20px;color:var(--muted);font-size:0.95rem">
+      <div>© <span id="year"></span> ShopEase. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    /* =========================
+       Data & configuration
+       - sample deals array with categories and sale end times
+       ========================= */
+    const GLOBAL_SALE_END = Date.now() + 1000 * 60 * 60 * 24 * 2; // 48 hours from now
+    const WA_PHONE = '2347012345678'; // editable owner WhatsApp (E.164 without +)
+
+    // Sample deals (6+ items). saleEnds can be individual or null (use global)
+    const DEALS = [
+      { id:'d101', name:'Wireless Earbuds', cat:'electronics', img:'https://picsum.photos/id/1062/600/400', price:59.00, orig:99.00, discount:40, saleEnds: GLOBAL_SALE_END },
+      { id:'d102', name:'Sport Sneakers', cat:'fashion', img:'https://picsum.photos/id/21/600/400', price:69.00, orig:119.00, discount:42, saleEnds: GLOBAL_SALE_END },
+      { id:'d103', name:'Smartwatch', cat:'electronics', img:'https://picsum.photos/id/1011/600/400', price:89.00, orig:159.00, discount:44, saleEnds: GLOBAL_SALE_END - 3600*1000*6 },
+      { id:'d104', name:'Ceramic Lamp', cat:'home', img:'https://picsum.photos/id/30/600/400', price:24.00, orig:39.00, discount:38, saleEnds: GLOBAL_SALE_END },
+      { id:'d105', name:'Luxury Handbag', cat:'fashion', img:'https://picsum.photos/id/1005/600/400', price:129.00, orig:199.00, discount:35, saleEnds: GLOBAL_SALE_END + 3600*1000*12 },
+      { id:'d106', name:'Skincare Set', cat:'beauty', img:'https://picsum.photos/id/1025/600/400', price:32.00, orig:59.00, discount:46, saleEnds: GLOBAL_SALE_END },
+      { id:'d107', name:'Portable Charger', cat:'electronics', img:'https://picsum.photos/id/1060/600/400', price:19.00, orig:29.00, discount:34, saleEnds: GLOBAL_SALE_END - 3600*1000*2 },
+      { id:'d108', name:'Cozy Throw', cat:'home', img:'https://picsum.photos/id/1070/600/400', price:22.00, orig:39.00, discount:44, saleEnds: GLOBAL_SALE_END }
+    ];
+
+    /* =========================
+       Helpers
+       ========================= */
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const fmt = v => '$' + v.toFixed(2);
+
+    // Build card markup for a deal
+    function buildCard(deal){
+      const card = document.createElement('article');
+      card.className = 'card fadeUp';
+      card.dataset.cat = deal.cat;
+      card.dataset.id = deal.id;
+      card.innerHTML = `
+        <div class="badge">${deal.discount}% OFF</div>
+        <div class="thumb" style="background-image:url('${deal.img}')" aria-hidden="true"></div>
+        <div class="meta">
+          <div class="name">${deal.name}</div>
+          <div class="prices">
+            <div class="orig">${fmt(deal.orig)}</div>
+            <div class="disc">${fmt(deal.price)}</div>
+          </div>
+          <div style="margin-top:8px;font-size:0.9rem;color:var(--muted)" data-timer-id="${deal.id}">Ends in <span class="timer" data-id="${deal.id}">--:--:--</span></div>
+          <div class="card-footer">
+            <button class="viewBtn" data-id="${deal.id}">View Product</button>
+            <button class="btn ghost" data-wh="${deal.id}">Order</button>
+          </div>
+        </div>
+      `;
+      // make view button clickable
+      card.querySelector('.viewBtn').addEventListener('click', ()=> {
+        location.href = `product.html?id=${encodeURIComponent(deal.id)}`;
+      });
+      // order via whatsapp prefilled message
+      card.querySelector('.btn.ghost').addEventListener('click', ()=> {
+        const text = `Hello ShopEase! I'm interested in ${deal.name} (ID: ${deal.id}) for ${fmt(deal.price)}.`;
+        window.open(`https://wa.me/${WA_PHONE}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+      });
+      return card;
+    }
+
+    /* =========================
+       Render & filtering
+       ========================= */
+    const grid = $('#dealsGrid');
+
+    function renderDeals(list){
+      grid.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      list.forEach((d,i) => {
+        const c = buildCard(d);
+        c.style.animationDelay = (i * 40) + 'ms';
+        frag.appendChild(c);
+      });
+      grid.appendChild(frag);
+      // initial timers display
+      updateTimers();
+    }
+
+    // Filter & sort utilities
+    let activeCategory = 'all';
+    let sortBy = 'featured';
+
+    function applyFilters(){
+      let items = DEALS.slice();
+      if(activeCategory !== 'all'){
+        items = items.filter(i => i.cat === activeCategory);
+      }
+      // sorting
+      switch(sortBy){
+        case 'discount': items.sort((a,b)=> b.discount - a.discount); break;
+        case 'price_asc': items.sort((a,b)=> a.price - b.price); break;
+        case 'price_desc': items.sort((a,b)=> b.price - a.price); break;
+        case 'newest': items.sort((a,b)=> b.id.localeCompare(a.id)); break;
+        default: break;
+      }
+      renderDeals(items);
+    }
+
+    /* =========================
+       Countdown timers
+       - global timer and per-item timers update every second
+       ========================= */
+    function secondsLeft(endTs){
+      return Math.max(0, Math.floor((endTs - Date.now()) / 1000));
+    }
+
+    function formatTimeLeft(s){
+      const days = Math.floor(s / 86400); s %= 86400;
+      const hours = Math.floor(s / 3600); s %= 3600;
+      const mins = Math.floor(s / 60);
+      const secs = s % 60;
+      return { days, hours, mins, secs };
+    }
+
+    // Update hero/global countdown (uses earliest sale end among deals or global)
+    function updateGlobalCountdown(){
+      const minEnd = Math.min(...DEALS.map(d => d.saleEnds || GLOBAL_SALE_END));
+      const s = secondsLeft(minEnd);
+      const t = formatTimeLeft(s);
+      $('#days').textContent = String(t.days).padStart(2,'0');
+      $('#hours').textContent = String(t.hours).padStart(2,'0');
+      $('#minutes').textContent = String(t.mins).padStart(2,'0');
+      $('#seconds').textContent = String(t.secs).padStart(2,'0');
+    }
+
+    // Update timers shown on cards
+    function updateTimers(){
+      $$('.timer').forEach(el=>{
+        const id = el.dataset.id;
+        const d = DEALS.find(x=> x.id === id);
+        const end = d && d.saleEnds ? d.saleEnds : GLOBAL_SALE_END;
+        const s = secondsLeft(end);
+        if(s <= 0){
+          el.textContent = 'Expired';
+          // Optionally mark card as expired
+          const card = el.closest('.card');
+          if(card && !card.classList.contains('expired')){
+            card.classList.add('expired');
+            card.style.opacity = '0.6';
+          }
+          return;
+        }
+        const tt = formatTimeLeft(s);
+        if(tt.days > 0) el.textContent = `${tt.days}d ${String(tt.hours).padStart(2,'0')}h`;
+        else el.textContent = `${String(tt.hours).padStart(2,'0')}:${String(tt.mins).padStart(2,'0')}:${String(tt.secs).padStart(2,'0')}`;
+      });
+    }
+
+    /* =========================
+       Init interactions
+       ========================= */
+    // wire filters
+    $$('.chip').forEach(btn=>{
+      btn.addEventListener('click', ()=> {
+        $$('.chip').forEach(b=> b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.dataset.cat;
+        applyFilters();
+      });
+    });
+
+    // wire sort
+    $('#sortSelect').addEventListener('change', e=> {
+      sortBy = e.target.value;
+      applyFilters();
+    });
+
+    // newsletter demo
+    $('#footSubscribe').addEventListener('click', ()=>{
+      const input = $('#footEmail');
+      const val = (input.value||'').trim();
+      if(!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)){ alert('Please enter a valid email.'); return; }
+      try{
+        const key = 'demo_news_v1';
+        const list = JSON.parse(localStorage.getItem(key) || '[]');
+        list.push({ email: val, ts: Date.now() });
+        localStorage.setItem(key, JSON.stringify(list));
+      }catch(e){}
+      alert('Thanks for subscribing!');
+      input.value = '';
+    });
+
+    // smooth scrolling for internal links (header/footer)
+    $$('nav.primary a[href^="#"], footer a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (ev)=>{
+        const href = a.getAttribute('href');
+        if(href && href.startsWith('#')){
+          ev.preventDefault();
+          const t = document.querySelector(href);
+          if(t) t.scrollIntoView({ behavior:'smooth', block:'start' });
+        }
+      });
+    });
+
+    // update timers every second
+    updateGlobalCountdown();
+    applyFilters();
+    setInterval(()=> { updateTimers(); updateGlobalCountdown(); }, 1000);
+
+    // animate cards on load: small stagger (already set via animationDelay on render)
+    // update year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

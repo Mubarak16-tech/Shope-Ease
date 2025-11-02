@@ -1,0 +1,462 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ShopEase — Cart & Checkout</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Variables & base styles
+       ========================= */
+    :root{
+      --bg:#f6fbf8;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --primary:#4CAF50;
+      --primary-dark:#2f7a3f;
+      --radius:12px;
+      --shadow:0 14px 40px rgba(12,20,30,0.06);
+      font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:linear-gradient(180deg,#f0faf3 0%,var(--bg) 60%);color:#071127;-webkit-font-smoothing:antialiased}
+    a{color:var(--primary);text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* =========================
+       Header / Navbar (sticky)
+       ========================= */
+    header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,0.96);backdrop-filter:blur(6px);border-bottom:1px solid rgba(10,20,30,0.04)}
+    .nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:12px}
+    .brand{display:flex;gap:12px;align-items:center;font-weight:700;color:var(--primary-dark)}
+    .brand-mark{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--primary),#06b6a4);font-weight:900}
+    nav.primary{display:flex;gap:12px;align-items:center}
+    nav.primary a{padding:8px 10px;border-radius:8px;color:var(--muted);font-weight:600}
+    nav.primary a:hover{color:var(--primary-dark);background:rgba(76,175,80,0.06);transition:all .18s}
+    .cta{display:flex;gap:10px;align-items:center}
+    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;border:1px solid rgba(10,20,30,0.04)}
+    .btn.primary{background:var(--primary);color:#fff;box-shadow:0 10px 30px rgba(76,175,80,0.12)}
+    @media (max-width:860px){ nav.primary{display:none} }
+
+    /* =========================
+       Page layout
+       ========================= */
+    .wrap{max-width:1200px;margin:22px auto;padding:0 20px;display:grid;gap:18px}
+    h1,h2,h3{margin:0 0 10px}
+
+    /* Cart & checkout grid */
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start}
+    @media (max-width:980px){ .grid{ grid-template-columns: 1fr } }
+
+    /* Cart items table */
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);border:1px solid rgba(10,20,30,0.03)}
+    .cart-table{width:100%;border-collapse:collapse}
+    .cart-table thead th{font-weight:700;color:var(--muted);text-align:left;padding:12px 8px}
+    .cart-table tbody td{padding:12px 8px;vertical-align:middle;border-top:1px solid rgba(10,20,30,0.03)}
+    .item-row{display:flex;gap:12px;align-items:center}
+    .product-thumb{width:88px;height:68px;border-radius:8px;flex-shrink:0;background-size:cover;background-position:center;box-shadow:0 8px 20px rgba(10,20,30,0.06)}
+    .prod-meta{display:flex;flex-direction:column;gap:6px}
+    .muted{color:var(--muted)}
+    .qty{width:84px;display:flex;gap:6px;align-items:center}
+    .qty input{width:56px;padding:8px;border-radius:8px;border:1px solid rgba(10,20,30,0.06);text-align:center}
+    .remove{background:transparent;border:0;color:#dc2626;cursor:pointer;font-weight:700}
+
+    /* Summary & checkout */
+    .summary{display:flex;flex-direction:column;gap:12px}
+    .summary .row{display:flex;justify-content:space-between;align-items:center}
+    .total{font-size:1.25rem;font-weight:800;color:var(--primary-dark)}
+    .checkout-form{display:grid;gap:10px}
+    .checkout-form input,.checkout-form textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(10,20,30,0.06)}
+    .small{font-size:0.9rem;color:var(--muted)}
+
+    /* Empty cart */
+    .empty{display:flex;flex-direction:column;gap:12px;align-items:center;padding:36px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfffb);box-shadow:var(--shadow)}
+
+    /* Animations */
+    .fadeIn{animation:fadeIn .36s ease both}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .removeAnim{animation:removeAnim .28s ease both}
+    @keyframes removeAnim{from{opacity:1;height:auto}to{opacity:0;height:0;transform:scale(.98);margin:0;padding:0}}
+
+    /* Footer */
+    footer{margin-top:18px;padding:18px;background:linear-gradient(180deg,#ffffff,var(--bg));border-top:1px solid rgba(10,20,30,0.04)}
+    .footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:0 20px}
+    .socials{display:flex;gap:8px}
+
+    /* Utilities */
+    .text-muted{color:var(--muted);font-size:0.95rem}
+  </style>
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header>
+    <div class="nav">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">SE</div>
+          <div>ShopEase</div>
+        </div>
+      </div>
+
+      <nav class="primary" aria-label="Primary navigation">
+        <a href="home.html">Home</a>
+        <a href="prod.html">Products</a>
+        <a href="deals.html">Deals</a>
+        <a href="about.html">About</a>
+        <a href="cont.html">Contact</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Page title -->
+    <div class="fadeIn">
+      <h1>Your Shopping Cart</h1>
+      <div class="text-muted">Review items, update quantities, and proceed to checkout.</div>
+    </div>
+
+    <!-- Grid: Cart items (left) & Summary/Checkout (right) -->
+    <div class="grid">
+      <!-- Cart items card -->
+      <section id="cartCard" class="card fadeIn" aria-labelledby="cartTitle">
+        <h2 id="cartTitle">Cart Items</h2>
+
+        <!-- Will render either empty message or table -->
+        <div id="cartContainer" style="margin-top:12px"></div>
+      </section>
+
+      <!-- Summary & Checkout -->
+      <aside class="card fadeIn" aria-labelledby="summaryTitle">
+        <h3 id="summaryTitle">Order Summary</h3>
+
+        <div class="summary" style="margin-top:10px">
+          <div class="row"><div class="muted">Subtotal</div><div id="subtotalPrice">$0.00</div></div>
+          <div class="row"><div class="muted">Delivery</div><div id="deliveryFee" class="muted">$5.00</div></div>
+          <div class="row total"><div>Total</div><div id="totalPrice">$0.00</div></div>
+
+          <button id="proceedBtn" class="btn primary" style="width:100%;margin-top:8px">Proceed to Checkout</button>
+
+          <hr style="border:none;border-top:1px solid rgba(10,20,30,0.04);margin:10px 0">
+
+          <h4>Checkout</h4>
+          <form id="checkoutForm" class="checkout-form" novalidate>
+            <input id="cname" type="text" placeholder="Full name" required>
+            <input id="cemail" type="email" placeholder="Email address" required>
+            <input id="cphone" type="tel" placeholder="Phone number" required>
+            <textarea id="caddress" rows="3" placeholder="Delivery address" required></textarea>
+            <button id="placeOrderBtn" type="button" class="btn primary">Place Order (WhatsApp)</button>
+            <div id="checkoutMsg" class="text-muted small">We will redirect you to WhatsApp to confirm your order.</div>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="brand-mark" style="width:36px;height:36px;font-size:0.9rem">SE</div>
+        <div style="font-weight:700">ShopEase</div>
+      </div>
+
+      <nav style="display:flex;gap:12px;align-items:center">
+        <a href="home.html">Home</a>
+        <a href="prod.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </nav>
+
+      <div class="socials">
+        <a href="#" title="Facebook">F</a>
+        <a href="#" title="Instagram">I</a>
+        <a href="#" title="Twitter">T</a>
+      </div>
+    </div>
+
+    <div style="max-width:1200px;margin:12px auto;padding:0 20px;color:var(--muted);font-size:0.95rem">
+      <div>© <span id="year"></span> ShopEase. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    /* =========================
+       JavaScript:
+       - Manage cart (localStorage)
+       - Update qty, subtotal, total
+       - Remove items with animation
+       - Checkout validation
+       - WhatsApp order message & redirect
+       ========================= */
+
+    const STORAGE_KEY = 'shopease_cart_v1';
+    const DELIVERY_FEE = 5.00; // editable delivery fee
+    // Replace with store owner WhatsApp (E.164 without '+', editable)
+    const WA_PHONE = '2347012345678';
+
+    // Demo sample products (used only if cart is empty and user clicks "Load demo items")
+    const DEMO_ITEMS = [
+      { id:'p001', name:'Comfy Sneakers', price:79.00, qty:1, img:'https://picsum.photos/id/21/240/180' },
+      { id:'p002', name:'Classic Watch', price:129.00, qty:1, img:'https://picsum.photos/id/1011/240/180' },
+      { id:'p003', name:'Noise Headphones', price:199.00, qty:1, img:'https://picsum.photos/id/1060/240/180' }
+    ];
+
+    // Elements
+    const cartContainer = document.getElementById('cartContainer');
+    const subtotalPrice = document.getElementById('subtotalPrice');
+    const totalPrice = document.getElementById('totalPrice');
+    const deliveryFeeEl = document.getElementById('deliveryFee');
+    const proceedBtn = document.getElementById('proceedBtn');
+    const placeOrderBtn = document.getElementById('placeOrderBtn');
+    const checkoutForm = document.getElementById('checkoutForm');
+
+    // Update displayed delivery fee
+    deliveryFeeEl.textContent = `$${DELIVERY_FEE.toFixed(2)}`;
+
+    // Load cart from localStorage
+    function loadCart(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      }catch(e){
+        return [];
+      }
+    }
+
+    // Save cart
+    function saveCart(cart){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+    }
+
+    // Format currency
+    function fmt(v){ return '$' + v.toFixed(2); }
+
+    // Calculate totals
+    function calcTotals(cart){
+      const subtotal = cart.reduce((s,i)=> s + (i.price * i.qty), 0);
+      const total = subtotal + (cart.length ? DELIVERY_FEE : 0);
+      return { subtotal, total };
+    }
+
+    // Render cart or empty state
+    function renderCart(){
+      const cart = loadCart();
+      cartContainer.innerHTML = '';
+      if(!cart.length){
+        // Empty cart UI with option to go to products or load demo items
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.innerHTML = `
+          <div style="font-weight:700;font-size:1.1rem">Your cart is empty — start shopping!</div>
+          <div class="text-muted">Add items from the Products page.</div>
+          <div style="display:flex;gap:10px">
+            <a class="btn ghost" href="prod.html">Go to Products</a>
+            <button id="loadDemo" class="btn primary">Load demo items</button>
+          </div>
+        `;
+        cartContainer.appendChild(empty);
+        document.getElementById('loadDemo')?.addEventListener('click', ()=>{
+          saveCart(DEMO_ITEMS);
+          renderCart();
+          updateSummary();
+        });
+        updateSummary();
+        return;
+      }
+
+      // Build table
+      const table = document.createElement('table');
+      table.className = 'cart-table';
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th style="width:50%">Product</th>
+            <th style="width:12%">Price</th>
+            <th style="width:16%">Qty</th>
+            <th style="width:12%">Subtotal</th>
+            <th style="width:10%"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      `;
+      const tbody = table.querySelector('tbody');
+
+      cart.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.dataset.id = item.id;
+        tr.className = 'fadeIn';
+        tr.innerHTML = `
+          <td>
+            <div class="item-row">
+              <div class="product-thumb" style="background-image:url('${item.img}')"></div>
+              <div class="prod-meta">
+                <div style="font-weight:700">${item.name}</div>
+                <div class="muted" style="font-size:0.9rem">${item.id}</div>
+              </div>
+            </div>
+          </td>
+          <td>${fmt(item.price)}</td>
+          <td>
+            <div class="qty">
+              <button class="btn ghost dec" data-id="${item.id}" aria-label="Decrease quantity">−</button>
+              <input type="number" min="1" value="${item.qty}" data-id="${item.id}" aria-label="Quantity">
+              <button class="btn ghost inc" data-id="${item.id}" aria-label="Increase quantity">+</button>
+            </div>
+          </td>
+          <td class="subtotalCell">${fmt(item.price * item.qty)}</td>
+          <td><button class="remove" data-id="${item.id}" aria-label="Remove item">Remove</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      cartContainer.appendChild(table);
+
+      // Attach event handlers
+      table.querySelectorAll('.inc').forEach(b => b.addEventListener('click', ()=> changeQty(b.dataset.id, 1)));
+      table.querySelectorAll('.dec').forEach(b => b.addEventListener('click', ()=> changeQty(b.dataset.id, -1)));
+      table.querySelectorAll('input[type="number"]').forEach(inp=>{
+        inp.addEventListener('change', (e)=>{
+          const v = Math.max(1, parseInt(e.target.value || 1, 10));
+          e.target.value = v;
+          setQty(inp.dataset.id, v);
+        });
+      });
+      table.querySelectorAll('.remove').forEach(b => b.addEventListener('click', ()=> removeItem(b.dataset.id)));
+
+      updateSummary();
+    }
+
+    // Set quantity for item id
+    function setQty(id, qty){
+      const cart = loadCart();
+      const idx = cart.findIndex(i=> i.id === id);
+      if(idx === -1) return;
+      cart[idx].qty = qty;
+      saveCart(cart);
+      // update row subtotal
+      const row = document.querySelector(`tr[data-id="${id}"]`);
+      if(row) row.querySelector('.subtotalCell').textContent = fmt(cart[idx].price * cart[idx].qty);
+      updateSummary();
+    }
+
+    // change qty by delta
+    function changeQty(id, delta){
+      const cart = loadCart();
+      const idx = cart.findIndex(i=> i.id === id);
+      if(idx === -1) return;
+      cart[idx].qty = Math.max(1, (cart[idx].qty || 1) + delta);
+      saveCart(cart);
+      renderCart(); // re-render to keep inputs consistent
+    }
+
+    // Remove item with animation and update storage
+    function removeItem(id){
+      const cart = loadCart();
+      const idx = cart.findIndex(i=> i.id === id);
+      if(idx === -1) return;
+      // animate removal
+      const row = document.querySelector(`tr[data-id="${id}"]`);
+      if(row){
+        row.classList.add('removeAnim');
+        row.addEventListener('animationend', ()=> {
+          cart.splice(idx,1);
+          saveCart(cart);
+          renderCart();
+        }, { once:true });
+      } else {
+        cart.splice(idx,1);
+        saveCart(cart);
+        renderCart();
+      }
+    }
+
+    // Update summary totals
+    function updateSummary(){
+      const cart = loadCart();
+      const { subtotal, total } = calcTotals(cart);
+      subtotalPrice.textContent = fmt(subtotal);
+      totalPrice.textContent = fmt(total);
+      // disable proceed if empty
+      proceedBtn.disabled = !cart.length;
+      placeOrderBtn.disabled = !cart.length;
+    }
+
+    // Proceed to checkout: scroll to checkout form
+    proceedBtn.addEventListener('click', ()=> {
+      document.getElementById('cname').focus();
+      document.querySelector('html').scrollTo({ top: document.querySelector('#summaryTitle').offsetTop - 20, behavior:'smooth' });
+    });
+
+    // Checkout validation helper
+    function validateCheckout(){
+      const name = document.getElementById('cname').value.trim();
+      const email = document.getElementById('cemail').value.trim();
+      const phone = document.getElementById('cphone').value.trim();
+      const address = document.getElementById('caddress').value.trim();
+      if(!name || !email || !phone || !address){
+        alert('Please fill all checkout fields.');
+        return null;
+      }
+      return { name, email, phone, address };
+    }
+
+    // Place order: build WhatsApp message and open wa.me link in new tab, then clear cart
+    placeOrderBtn.addEventListener('click', ()=> {
+      const form = validateCheckout();
+      if(!form) return;
+
+      const cart = loadCart();
+      if(!cart.length){ alert('Your cart is empty.'); return; }
+
+      // Build details
+      const lines = cart.map(i => `${i.name} x${i.qty} (${fmt(i.price * i.qty)})`);
+      const totals = calcTotals(cart);
+      const msg = `Hello ShopEase! I just placed an order:%0A` +
+                  lines.map(l=> encodeURIComponent(' - ' + l)).join('%0A') +
+                  `%0A%0ASubtotal: ${encodeURIComponent(fmt(totals.subtotal))}` +
+                  `%0ADelivery: ${encodeURIComponent(fmt(DELIVERY_FEE))}` +
+                  `%0ATotal: ${encodeURIComponent(fmt(totals.total))}` +
+                  `%0A%0AName: ${encodeURIComponent(form.name)}` +
+                  `%0AEmail: ${encodeURIComponent(form.email)}` +
+                  `%0APhone: ${encodeURIComponent(form.phone)}` +
+                  `%0AAddress: ${encodeURIComponent(form.address)}`;
+
+      const waUrl = `https://wa.me/${WA_PHONE}?text=${msg}`;
+
+      // Clear cart and save — do this before opening (so state persists)
+      saveCart([]);
+      renderCart();
+      updateSummary();
+
+      // Open WhatsApp in a new tab
+      window.open(waUrl, '_blank', 'noopener');
+
+      // Optional: show quick confirmation
+      alert('Order initiated. You will be redirected to WhatsApp to confirm the order.');
+    });
+
+    // Init: render cart and update year
+    renderCart();
+    updateSummary();
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Small accessibility: keyboard support for rows created dynamically via event delegation
+    document.addEventListener('click', (e)=>{
+      const inc = e.target.closest('.inc');
+      const dec = e.target.closest('.dec');
+      if(inc) changeQty(inc.dataset.id, 1);
+      if(dec) changeQty(dec.dataset.id, -1);
+    });
+  </script>
+</body>
+</html>

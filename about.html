@@ -1,0 +1,466 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ShopEase — About Us</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Variables & base styles
+       ========================= */
+    :root{
+      --bg: #f6fbf8;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --primary: #4CAF50;      /* primary green */
+      --primary-dark: #2f7a3f;
+      --radius: 12px;
+      --shadow: 0 14px 40px rgba(10,20,30,0.06);
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color-scheme: light;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; min-height:100vh; background:linear-gradient(180deg,#f0faf3 0%,var(--bg) 60%);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; color:#0f172a;
+    }
+    a{color:var(--primary); text-decoration:none}
+    img{max-width:100%; display:block; border-radius:8px}
+
+    /* =========================
+       Header / Navigation (sticky)
+       ========================= */
+    header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,0.96); backdrop-filter:blur(6px);
+      border-bottom:1px solid rgba(15,23,42,0.04);
+    }
+    .nav{
+      max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:12px 20px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--primary-dark)}
+    .brand-mark{
+      width:44px;height:44px;border-radius:10px; display:flex;align-items:center;justify-content:center;
+      color:#fff; font-weight:900; background:linear-gradient(135deg,var(--primary),#06b6a4);
+    }
+    nav.primary{display:flex;gap:12px;align-items:center}
+    nav.primary a{padding:8px 10px;border-radius:8px;color:var(--muted);font-weight:600}
+    nav.primary a:hover{color:var(--primary-dark); background:rgba(76,175,80,0.06); transition:all .18s}
+    .cta{display:flex;gap:10px;align-items:center}
+    .btn{padding:9px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;border:1px solid rgba(15,23,42,0.06); color:var(--primary-dark)}
+    .btn.primary{background:var(--primary);color:#fff;box-shadow:0 8px 22px rgba(76,175,80,0.12)}
+    @media (max-width:860px){ nav.primary{display:none} }
+
+    /* =========================
+       Page hero
+       ========================= */
+    .hero{
+      max-width:1100px; margin:22px auto; padding:28px 20px; border-radius:14px;
+      display:grid; grid-template-columns:1fr; gap:18px; align-items:center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.92));
+      box-shadow:var(--shadow); overflow:hidden;
+    }
+    .hero .banner{
+      display:flex; gap:20px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+    }
+    .hero h1{margin:0;font-size:1.9rem}
+    .hero p.lead{margin:6px 0 0;color:var(--muted);font-size:1rem;max-width:70ch}
+    .hero-visual{
+      margin-top:12px; height:200px; border-radius:10px; background-size:cover; background-position:center;
+      box-shadow:0 12px 36px rgba(10,20,30,0.06);
+      transform-origin:center; animation:slowFloat 12s ease-in-out infinite alternate;
+    }
+    @keyframes slowFloat{ from{ transform:scale(1) } to{ transform:scale(1.02) } }
+
+    /* =========================
+       Our story (two-column)
+       ========================= */
+    .container{ max-width:1100px; margin:26px auto; padding:0 20px; }
+    .two-col{ display:grid; grid-template-columns:1fr 420px; gap:22px; align-items:center; }
+    .two-col img{ border-radius:12px; }
+    @media (max-width:980px){ .two-col{ grid-template-columns:1fr; } }
+
+    /* =========================
+       Mission section
+       ========================= */
+    .mission{ background:linear-gradient(180deg,#fff,#fbfffb); padding:22px; border-radius:12px; box-shadow:var(--shadow) }
+    .mission-grid{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px }
+    .mission-item{
+      background:var(--card); padding:12px; border-radius:10px; box-shadow:0 8px 22px rgba(10,20,30,0.04);
+      display:flex; gap:12px; align-items:center; min-width:220px; flex:1 1 220px;
+    }
+    .icon{ width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; background:var(--primary); flex-shrink:0 }
+
+    /* =========================
+       Team section
+       ========================= */
+    .team-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:12px }
+    .member{ background:var(--card); padding:12px; border-radius:12px; box-shadow:var(--shadow); text-align:center; transition:transform .18s ease, box-shadow .18s}
+    .member:hover{ transform:translateY(-8px); box-shadow:0 22px 50px rgba(10,20,30,0.12) }
+    .avatar{ width:100%; height:180px; border-radius:10px; background-size:cover; background-position:center; margin-bottom:12px }
+    .member h4{ margin:6px 0 4px }
+    .member p{ margin:0; color:var(--muted); font-size:0.92rem }
+    @media (max-width:1100px){ .team-grid{ grid-template-columns:repeat(2,1fr) } }
+    @media (max-width:520px){ .team-grid{ grid-template-columns:1fr } }
+
+    /* =========================
+       Why choose us / bullets
+       ========================= */
+    .why{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px }
+    .why-list{ list-style:none; padding:0; margin:0; display:grid; gap:10px }
+    .why-list li{ display:flex; gap:10px; align-items:center; background:var(--card); padding:10px; border-radius:10px; box-shadow:0 8px 18px rgba(10,20,30,0.04) }
+    .why .icon-small{ width:36px; height:36px; border-radius:8px; display:flex;align-items:center;justify-content:center;background:var(--primary); color:#fff; flex-shrink:0 }
+
+    /* =========================
+       Contact / Footer-like info
+       ========================= */
+    .contact{ background:linear-gradient(180deg,#fff,#fbfffb); padding:18px; border-radius:12px; box-shadow:var(--shadow); margin-top:18px }
+    .contact-grid{ display:grid; grid-template-columns:1fr 320px; gap:16px; align-items:start }
+    @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; } }
+
+    /* Footer */
+    footer{ margin-top:30px; padding:22px 20px; background:linear-gradient(180deg,#ffffff,var(--bg)); border-top:1px solid rgba(15,23,42,0.04) }
+    .footer-inner{ max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap }
+    .newsletter{ display:flex; gap:8px; align-items:center }
+    .newsletter input{ padding:10px 12px; border-radius:10px; border:1px solid rgba(15,23,42,0.06); outline:0 }
+
+    /* Fade-in util */
+    .fade-in{ opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease }
+    .fade-in.visible{ opacity:1; transform:none }
+
+    /* Small responsive tweaks */
+    @media (max-width:640px){
+      .nav{ padding:10px 14px }
+      .hero h1{ font-size:1.4rem }
+    }
+  </style>
+</head>
+<body>
+  <!-- =========================
+       Header / Navigation
+       - Sticky header with logo and links
+       ========================= -->
+  <header>
+    <div class="nav">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="brand" aria-label="ShopEase logo">
+          <div class="brand-mark" aria-hidden="true">SE</div>
+          <div>ShopEase</div>
+        </div>
+      </div>
+
+      <nav class="primary" aria-label="Main navigation">
+        <a href="home.html">Home</a>
+        <a href="prod.html">Products</a>
+        <a href="#deals.html">Deals</a>
+        <a href="#">About</a>
+        <a href="cont.html">Contact</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- =========================
+       Hero Section
+       - Big headline + subtext + background visual
+       - Subtle fade-in for text
+       ========================= -->
+  <section class="hero" aria-label="About ShopEase hero">
+    <div class="banner">
+      <div class="fade-in" id="heroText">
+        <h1>About ShopEase</h1>
+        <p class="lead">Your one-stop destination for quality and affordable shopping.</p>
+      </div>
+
+      <!-- decorative visual/banner -->
+      <div class="hero-visual fade-in" style="background-image: url('https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=1400&auto=format&fit=crop');"></div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Our Story
+       - Two-column layout for larger screens
+       ========================= -->
+  <main class="container">
+    <section id="ourStory" class="fade-in">
+      <h2>Our Story</h2>
+
+      <div class="two-col" style="margin-top:12px">
+        <div>
+          <p>ShopEase started as a small idea: make quality products accessible to everyone without the hassle. Founded by a team of shoppers frustrated with high prices and complicated returns, we set out to build a platform that prioritizes transparency, value, and delightful service.</p>
+
+          <p>Over the years we've partnered with trusted suppliers, built a friendly customer support team, and optimized our logistics to bring faster deliveries and easier returns. Our community of customers inspires us — their feedback helps improve our selection and service every day.</p>
+
+          <p>We believe shopping should be simple, affordable, and enjoyable. That's why we focus on curated products, fair pricing, and policies that put customers first.</p>
+        </div>
+
+        <div>
+          <img src="https://images.unsplash.com/photo-1521334884684-d80222895322?q=80&w=900&auto=format&fit=crop" alt="Our team / storefront">
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         Our Mission
+         - Short paragraph + 3 mission points with icons
+         ========================= -->
+    <section class="mission fade-in" style="margin-top:20px" id="mission">
+      <h2>Our Mission</h2>
+      <p style="margin-top:8px; color:var(--muted)">We exist to deliver quality, affordability, and trust. Everything we do centers on providing excellent products and an exceptional shopping experience.</p>
+
+      <div class="mission-grid" role="list">
+        <div class="mission-item" role="listitem">
+          <div class="icon" aria-hidden="true">
+            <!-- quality icon -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.2 4.5L19 8l-3.5 3.1L16.4 16 12 13.6 7.6 16l.9-4.9L5 8l4.8-1.5L12 2z" fill="currentColor"/></svg>
+          </div>
+          <div>
+            <div style="font-weight:700">Quality Products</div>
+            <div style="color:var(--muted);font-size:0.95rem">Curated and tested items you can trust.</div>
+          </div>
+        </div>
+
+        <div class="mission-item" role="listitem">
+          <div class="icon" aria-hidden="true">
+            <!-- delivery icon -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 13h13v-6H3v6zM3 13v6h3v-6H3zM21 13h-2l-1-3h-4v6h7v-3z" fill="currentColor"/></svg>
+          </div>
+          <div>
+            <div style="font-weight:700">Fast Delivery</div>
+            <div style="color:var(--muted);font-size:0.95rem">Reliable shipping across many regions.</div>
+          </div>
+        </div>
+
+        <div class="mission-item" role="listitem">
+          <div class="icon" aria-hidden="true">
+            <!-- secure icon -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1l8 3v5c0 5-3.9 9.7-8 11-4.1-1.3-8-6-8-11V4l8-3z" fill="currentColor"/></svg>
+          </div>
+          <div>
+            <div style="font-weight:700">Secure Payments</div>
+            <div style="color:var(--muted);font-size:0.95rem">Industry-standard encryption and options.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         Meet the Team
+         - 3–4 team member cards
+         ========================= -->
+    <section class="fade-in" style="margin-top:20px" id="team">
+      <h2>Meet Our Team</h2>
+
+      <div class="team-grid">
+        <div class="member">
+          <div class="avatar" style="background-image:url('https://randomuser.me/api/portraits/women/44.jpg')"></div>
+          <h4>Olivia Chen</h4>
+          <p>Co-Founder & CEO — "Building customer-first shopping experiences."</p>
+        </div>
+
+        <div class="member">
+          <div class="avatar" style="background-image:url('https://randomuser.me/api/portraits/men/32.jpg')"></div>
+          <h4>Ethan Park</h4>
+          <p>Head of Product — "Curating quality items with care."</p>
+        </div>
+
+        <div class="member">
+          <div class="avatar" style="background-image:url('https://randomuser.me/api/portraits/women/65.jpg')"></div>
+          <h4>Sara Lopez</h4>
+          <p>Customer Experience — "Here to help, every step of the way."</p>
+        </div>
+
+        <div class="member">
+          <div class="avatar" style="background-image:url('https://randomuser.me/api/portraits/men/45.jpg')"></div>
+          <h4>Marcus Lee</h4>
+          <p>Logistics Lead — "Fast, reliable deliveries are my priority."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         Why Choose Us
+         - Bullet points with small icons
+         ========================= -->
+    <section class="fade-in" style="margin-top:20px" id="why">
+      <h2>Why Choose Us</h2>
+      <div class="why" style="margin-top:12px">
+        <ul class="why-list">
+          <li><div class="icon-small" style="background:var(--primary);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff">✓</div><div><strong>Wide Product Range</strong><div style="color:var(--muted)">Everything from home to electronics.</div></div></li>
+          <li><div class="icon-small" style="background:var(--primary);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff">★</div><div><strong>Trusted by Thousands</strong><div style="color:var(--muted)">Positive reviews and repeat customers.</div></div></li>
+        </ul>
+
+        <ul class="why-list">
+          <li><div class="icon-small" style="background:var(--primary);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff">💲</div><div><strong>Affordable Pricing</strong><div style="color:var(--muted)">Competitive prices and frequent deals.</div></div></li>
+          <li><div class="icon-small" style="background:var(--primary);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff">⏰</div><div><strong>24/7 Support</strong><div style="color:var(--muted)">Help whenever you need it.</div></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =========================
+         Contact Info + small contact form
+         ========================= -->
+    <section class="contact fade-in" id="contact" style="margin-top:20px">
+      <h2>Contact Us</h2>
+
+      <div class="contact-grid" style="margin-top:12px">
+        <div>
+          <p style="margin:0 0 8px"><strong>Address</strong><br> 123 Market Street, Suite 500, Cityville</p>
+          <p style="margin:0 0 8px"><strong>Email</strong><br> <a href="mailto:support@shopease.example">support@shopease.example</a></p>
+          <p style="margin:0 0 8px"><strong>Phone</strong><br> <a href="tel:+1234567890">+1 (234) 567-890</a></p>
+        </div>
+
+        <!-- Simple contact form (demo) -->
+        <form id="contactForm" style="display:flex;flex-direction:column;gap:8px;min-width:260px">
+          <input id="cname" type="text" placeholder="Your name" required style="padding:10px;border-radius:8px;border:1px solid rgba(15,23,42,0.06)">
+          <input id="cemail" type="email" placeholder="Your email" required style="padding:10px;border-radius:8px;border:1px solid rgba(15,23,42,0.06)">
+          <textarea id="cmsg" rows="4" placeholder="Message" style="padding:10px;border-radius:8px;border:1px solid rgba(15,23,42,0.06)"></textarea>
+          <div style="display:flex;gap:8px">
+            <button type="submit" class="btn primary">Send Message</button>
+            <button type="button" id="clearContact" class="btn ghost">Clear</button>
+          </div>
+          <div id="contactFeedback" style="color:var(--primary-dark);font-weight:600;display:none"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================
+       Footer
+       - Links, socials, copyright
+       ========================= -->
+  <footer>
+    <div class="footer-inner">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="brand-mark" style="width:36px;height:36px;font-size:0.9rem">SE</div>
+        <div style="font-weight:700">ShopEase</div>
+      </div>
+
+      <nav aria-label="Footer links" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <a href="home.html">Home</a>
+        <a href="prod.html">Products</a>
+        <a href="#deals">Deals</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="newsletter">
+          <input id="footEmail" type="email" placeholder="Your email" aria-label="Newsletter email">
+          <button id="footSubscribe" class="btn primary">Subscribe</button>
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center">
+          <a href="#" aria-label="Facebook" style="width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(76,175,80,0.06)">F</a>
+          <a href="#" aria-label="Instagram" style="width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(76,175,80,0.06)">I</a>
+          <a href="#" aria-label="Twitter" style="width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(76,175,80,0.06)">T</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="max-width:1100px;margin:14px auto;padding:0 20px;color:var(--muted);font-size:0.95rem">
+      <div>© <span id="year"></span> ShopEase. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    /* =========================
+       JavaScript enhancements
+       - Smooth internal link scrolling
+       - Fade-in reveal on scroll (IntersectionObserver)
+       - Contact form demo handling
+       - Footer newsletter subscribe demo
+       ========================= */
+
+    // Smooth scrolling for internal anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if(!href || href === '#') return;
+        const target = document.querySelector(href);
+        if(target){
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Reveal sections with fade-in when they enter viewport
+    const fades = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    fades.forEach(el => observer.observe(el));
+
+    // Contact form (demo): client-side validation and feedback
+    const contactForm = document.getElementById('contactForm');
+    const contactFeedback = document.getElementById('contactFeedback');
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('cname').value.trim();
+      const email = document.getElementById('cemail').value.trim();
+      const msg = document.getElementById('cmsg').value.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // Basic validation
+      if(!name){ alert('Please enter your name.'); return; }
+      if(!email || !emailPattern.test(email)){ alert('Please enter a valid email.'); return; }
+      if(!msg){ alert('Please enter a message.'); return; }
+
+      // Simulate send and show feedback
+      contactFeedback.style.display = 'block';
+      contactFeedback.textContent = 'Message sent! We will get back to you shortly.';
+      // Optionally save to localStorage (demo)
+      try{
+        const messages = JSON.parse(localStorage.getItem('demo_messages_v1') || '[]');
+        messages.push({ name, email, msg, ts: Date.now() });
+        localStorage.setItem('demo_messages_v1', JSON.stringify(messages));
+      }catch(err){ /* ignore */ }
+
+      // Clear form after send
+      contactForm.reset();
+      setTimeout(()=> contactFeedback.style.display = 'none', 4500);
+    });
+
+    // Clear contact form button
+    document.getElementById('clearContact').addEventListener('click', ()=> contactForm.reset());
+
+    // Footer newsletter subscribe (demo)
+    document.getElementById('footSubscribe').addEventListener('click', () => {
+      const input = document.getElementById('footEmail');
+      const email = (input.value || '').trim();
+      if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ alert('Please enter a valid email.'); return; }
+      const list = JSON.parse(localStorage.getItem('demo_news_v1') || '[]');
+      list.push({ email, ts: Date.now() });
+      localStorage.setItem('demo_news_v1', JSON.stringify(list));
+      alert('Thanks for subscribing!');
+      input.value = '';
+    });
+
+    // Accessibility: allow Enter key on clickable category/team elements (if present)
+    document.querySelectorAll('[role="button"]').forEach(el => {
+      el.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' ') el.click();
+      });
+    });
+
+    // Update year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

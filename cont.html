@@ -1,0 +1,421 @@
+// ...existing code...
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ShopEase — Contact Us</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Variables & base styles
+       ========================= */
+    :root{
+      --bg: #f6fbf8;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --primary: #4CAF50; /* green primary */
+      --primary-dark: #2f7a3f;
+      --radius: 12px;
+      --shadow: 0 12px 36px rgba(15,23,42,0.08);
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; min-height:100vh; background:linear-gradient(180deg,#f0faf3 0%,var(--bg) 60%);
+      color:#0f172a; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--primary); text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* =========================
+       Header / Navbar (sticky)
+       ========================= */
+    header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,0.96); backdrop-filter:blur(6px);
+      border-bottom:1px solid rgba(15,23,42,0.04);
+    }
+    .nav{
+      max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:12px 20px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--primary-dark)}
+    .brand-mark{
+      width:44px;height:44px;border-radius:10px; display:flex;align-items:center;justify-content:center;
+      color:#fff; font-weight:900; background:linear-gradient(135deg,var(--primary),#06b6a4);
+    }
+    nav.primary{display:flex;gap:12px;align-items:center}
+    nav.primary a{padding:8px 10px;border-radius:8px;color:var(--muted);font-weight:600}
+    nav.primary a:hover{color:var(--primary-dark); background:rgba(76,175,80,0.06); transition:all .18s}
+    .cta{display:flex;gap:10px;align-items:center}
+    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;border:1px solid rgba(15,23,42,0.06); color:var(--primary-dark)}
+    .btn.primary{background:var(--primary);color:#fff;box-shadow:0 8px 22px rgba(76,175,80,0.12)}
+    @media (max-width:860px){ nav.primary{display:none} }
+
+    /* =========================
+       Hero
+       ========================= */
+    .hero{
+      max-width:1100px; margin:22px auto; padding:28px 20px; border-radius:14px;
+      display:grid; gap:12px; align-items:center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.92));
+      box-shadow:var(--shadow);
+    }
+    .hero h1{margin:0;font-size:1.8rem}
+    .hero p.lead{margin:6px 0 0;color:var(--muted);font-size:1rem;max-width:70ch}
+    .hero-visual{
+      margin-top:12px; height:160px; border-radius:10px; background-size:cover; background-position:center;
+      box-shadow:0 12px 36px rgba(10,20,30,0.06);
+      transform-origin:center; animation:slowFloat 12s ease-in-out infinite alternate;
+    }
+    @keyframes slowFloat{ from{ transform:scale(1) } to{ transform:scale(1.02) } }
+
+    /* =========================
+       Contact form layout
+       ========================= */
+    .container{ max-width:1100px; margin:22px auto; padding:0 20px; display:grid; gap:18px }
+    .grid{ display:grid; grid-template-columns: 1fr 420px; gap:20px; align-items:start }
+    @media (max-width:980px){ .grid{ grid-template-columns: 1fr } }
+
+    .card{ background:var(--card); padding:18px; border-radius:12px; box-shadow:var(--shadow); border:1px solid rgba(15,23,42,0.03) }
+
+    label{ display:block; font-size:0.9rem; margin-bottom:6px; color:#0f172a }
+    input[type="text"], input[type="email"], input[type="tel"], textarea{
+      width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(15,23,42,0.06); outline:0; font-size:0.95rem;
+    }
+    textarea{ resize:vertical; min-height:120px }
+
+    .row{ display:flex; gap:12px }
+    .row > * { flex:1 }
+
+    .error{ color:#dc2626; font-size:0.9rem; margin-top:6px; display:none }
+    .success{ background:#ecfdf5; color:#065f46; padding:10px 12px; border-radius:8px; font-weight:700; display:none }
+
+    /* =========================
+       Contact info / map
+       ========================= */
+    .info-list{ display:flex; flex-direction:column; gap:12px; margin-bottom:14px }
+    .info-item{ display:flex; gap:10px; align-items:flex-start }
+    .info-item strong{ display:block }
+
+    .map{ border-radius:10px; overflow:hidden; height:260px; border:1px solid rgba(15,23,42,0.04) }
+
+    /* =========================
+       Footer
+       ========================= */
+    footer{ margin-top:10px; padding:22px 20px; background:linear-gradient(180deg,#ffffff,var(--bg)); border-top:1px solid rgba(15,23,42,0.04) }
+    .footer-inner{ max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap }
+    .newsletter{ display:flex; gap:8px; align-items:center }
+    .newsletter input{ padding:10px 12px; border-radius:10px; border:1px solid rgba(15,23,42,0.06); outline:0 }
+
+    /* =========================
+       WhatsApp floating button
+       ========================= */
+    .whatsapp {
+      position:fixed; right:18px; bottom:18px; z-index:60;
+      width:54px; height:54px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center;
+      color:#fff; box-shadow:0 12px 30px rgba(37,211,102,0.18); cursor:pointer; transition:transform .18s ease, box-shadow .18s;
+    }
+    .whatsapp:hover{ transform:translateY(-4px) scale(1.06); box-shadow:0 20px 40px rgba(37,211,102,0.22); animation:whPulse .9s ease-in-out infinite; }
+    @keyframes whPulse { 0%{ transform:scale(1.04) } 50%{ transform:scale(1.08) } 100%{ transform:scale(1.04) } }
+
+    /* small utilities */
+    .muted{ color:var(--muted) }
+  </style>
+</head>
+<body>
+  <!-- =========================
+       Header / Navigation
+       - Sticky header with logo and nav links
+       ========================= -->
+  <header>
+    <div class="nav">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="brand" aria-label="ShopEase logo">
+          <div class="brand-mark" aria-hidden="true">SE</div>
+          <div>ShopEase</div>
+        </div>
+      </div>
+
+      <nav class="primary" aria-label="Primary navigation">
+        <a href="home.html">Home</a>
+        <a href="prod.html">Products</a>
+        <a href="deals.html">Deals</a>
+        <a href="about.html">About</a>
+        <a href="cont.html">Contact</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- =========================
+       Hero section
+       - Headline + subtext + soft background visual
+       - Light fade-in animation
+       ========================= -->
+  <section class="hero" aria-label="Contact hero">
+    <div>
+      <h1>We’d love to hear from you!</h1>
+      <p class="lead">Have a question, feedback, or need help with your order? Reach out to us below.</p>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true" style="background-image:url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1400&auto=format&fit=crop');"></div>
+  </section>
+
+  <!-- =========================
+       Main content: Contact form + Contact info / map
+       ========================= -->
+  <main class="container">
+    <div class="grid">
+      <!-- Contact form card -->
+      <section class="card" aria-labelledby="formTitle">
+        <h2 id="formTitle">Send Us a Message</h2>
+
+        <!-- Success feedback (shown after submit) -->
+        <div id="formSuccess" class="success" role="status" aria-live="polite">Thank you! We’ll get back to you soon.</div>
+
+        <!-- Contact form (front-end only) -->
+        <form id="contactForm" novalidate style="margin-top:12px; display:grid; gap:12px">
+          <div class="row">
+            <div>
+              <label for="fullName">Full Name</label>
+              <input id="fullName" name="fullName" type="text" placeholder="Your full name" required>
+              <div id="errName" class="error">Please enter your name.</div>
+            </div>
+
+            <div>
+              <label for="email">Email Address</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required>
+              <div id="errEmail" class="error">Please enter a valid email.</div>
+            </div>
+          </div>
+
+          <div>
+            <label for="subject">Subject</label>
+            <input id="subject" name="subject" type="text" placeholder="Subject" required>
+            <div id="errSubject" class="error">Please enter a subject.</div>
+          </div>
+
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Write your message..." required></textarea>
+            <div id="errMessage" class="error">Please enter a message.</div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:center">
+            <button id="sendBtn" type="submit" class="btn primary">Send Message</button>
+            <button id="clearBtn" type="button" class="btn ghost">Clear</button>
+            <div id="formNote" class="muted" style="margin-left:auto;font-size:0.95rem">We reply within 24–48 hours.</div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Contact info / map card -->
+      <aside class="card" aria-labelledby="contactInfo">
+        <h3 id="contactInfo">Contact Info</h3>
+
+        <div class="info-list" style="margin-top:10px">
+          <div class="info-item">
+            <div><strong>Address</strong></div>
+            <div class="muted">123 Market Street, Suite 500, Cityville</div>
+          </div>
+
+          <div class="info-item">
+            <div><strong>Email</strong></div>
+            <div><a href="mailto:support@shopease.example">support@shopease.example</a></div>
+          </div>
+
+          <div class="info-item">
+            <div><strong>Phone</strong></div>
+            <div><a href="tel:+1234567890">+1 (234) 567-890</a></div>
+          </div>
+        </div>
+
+        <!-- Optional Google Maps embed (simple q param embed) -->
+        <div class="map" aria-hidden="false" title="Store location">
+          <iframe
+            src="https://maps.google.com/maps?q=40.7128,-74.0060&z=15&output=embed"
+            width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- =========================
+       WhatsApp floating button
+       - Opens chat in a new tab using wa.me
+       - Replace phone number with your own in production
+       ========================= -->
+  <div id="whatsappBtn" class="whatsapp" role="button" aria-label="Contact on WhatsApp" title="Chat on WhatsApp">
+    <!-- simple WhatsApp icon -->
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 3.5A11.9 11.9 0 0 0 12 0C5.373 0 0 5.373 0 12c0 2.11.55 4.08 1.6 5.82L0 24l6.46-1.61A11.93 11.93 0 0 0 12 24c6.627 0 12-5.373 12-12 0-3.2-1.25-6.12-3.5-8.5z" fill="#fff"/><path d="M17 14.5c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.7-.2-1 .2-.3.4-1 1.3-1.2 1.6-.2.3-.4.4-.8.1-.4-.3-1.7-1-2.9-1.9-.8-.6-1.3-1.4 1.3-2.1 1.6-.5 2.3-.6 2.7-.8.4-.2.7-.2.9.1.2.3.6 1 .8 1.2.2.2.3.4.1.7-.2.3-.4.6-.5.8" fill="#fff"/></svg>
+  </div>
+
+  <!-- =========================
+       Footer
+       - Links, newsletter and social icons
+       ========================= -->
+  <footer>
+    <div class="footer-inner">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="brand-mark" style="width:36px;height:36px;font-size:0.9rem">SE</div>
+        <div style="font-weight:700">ShopEase</div>
+      </div>
+
+      <nav aria-label="Footer links" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <a href="home.html">Home</a>
+        <a href="prod.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="newsletter">
+          <input id="footEmail" type="email" placeholder="Your email" aria-label="Newsletter email">
+          <button id="footSubscribe" class="btn primary">Subscribe</button>
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center">
+          <a href="#" aria-label="Facebook" style="width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(76,175,80,0.06)">F</a>
+          <a href="#" aria-label="Instagram" style="width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(76,175,80,0.06)">I</a>
+          <a href="#" aria-label="Twitter" style="width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(76,175,80,0.06)">T</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="max-width:1100px;margin:14px auto;padding:0 20px;color:var(--muted);font-size:0.95rem">
+      <div>© <span id="year"></span> ShopEase. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    /* =========================
+       JavaScript:
+       - Form validation & confirmation (front-end only)
+       - Smooth scroll for internal links
+       - WhatsApp button open in new tab
+       - Footer newsletter demo
+       - Small accessibility helpers
+       ========================= */
+
+    // Simple email regex
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Elements
+    const contactForm = document.getElementById('contactForm');
+    const fullName = document.getElementById('fullName');
+    const email = document.getElementById('email');
+    const subject = document.getElementById('subject');
+    const message = document.getElementById('message');
+
+    const errName = document.getElementById('errName');
+    const errEmail = document.getElementById('errEmail');
+    const errSubject = document.getElementById('errSubject');
+    const errMessage = document.getElementById('errMessage');
+
+    const formSuccess = document.getElementById('formSuccess');
+    const clearBtn = document.getElementById('clearBtn');
+
+    // Validate single field, show/hide error
+    function validateField(el, errEl, validator){
+      const ok = validator(el.value.trim());
+      errEl.style.display = ok ? 'none' : 'block';
+      return ok;
+    }
+
+    // Form submit handler (front-end only)
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const okName = validateField(fullName, errName, v => v.length > 1);
+      const okEmail = validateField(email, errEmail, v => emailPattern.test(v));
+      const okSubject = validateField(subject, errSubject, v => v.length > 2);
+      const okMessage = validateField(message, errMessage, v => v.length > 5);
+
+      if(!(okName && okEmail && okSubject && okMessage)){
+        // focus first invalid
+        if(!okName) fullName.focus();
+        else if(!okEmail) email.focus();
+        else if(!okSubject) subject.focus();
+        else if(!okMessage) message.focus();
+        return;
+      }
+
+      // Show confirmation message
+      formSuccess.style.display = 'block';
+
+      // Save demo message locally (front-end only)
+      try{
+        const key = 'demo_contact_messages_v1';
+        const list = JSON.parse(localStorage.getItem(key) || '[]');
+        list.push({ name: fullName.value.trim(), email: email.value.trim(), subject: subject.value.trim(), message: message.value.trim(), ts: Date.now() });
+        localStorage.setItem(key, JSON.stringify(list));
+      }catch(err){ /* ignore storage errors */ }
+
+      // Clear form and hide message after a few seconds
+      contactForm.reset();
+      setTimeout(() => { formSuccess.style.display = 'none'; }, 4500);
+    });
+
+    // Clear button
+    clearBtn.addEventListener('click', () => contactForm.reset());
+
+    // WhatsApp floating button behavior
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    // Replace with your business phone number (E.164 without +). Example uses Nigerian code placeholder.
+    const waPhone = '2347012345678';
+    const waText = encodeURIComponent('Hello ShopEase! I need help with my order.');
+    const waUrl = `https://wa.me/${waPhone}?text=${waText}`;
+
+    whatsappBtn.addEventListener('click', (e) => {
+      window.open(waUrl, '_blank', 'noopener');
+    });
+
+    // Smooth scroll for internal anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if(!href || href === '#') return;
+        const target = document.querySelector(href);
+        if(target){
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Footer newsletter demo
+    document.getElementById('footSubscribe').addEventListener('click', () => {
+      const input = document.getElementById('footEmail');
+      const val = (input.value || '').trim();
+      if(!val || !emailPattern.test(val)){ alert('Please enter a valid email.'); return; }
+      try{
+        const list = JSON.parse(localStorage.getItem('demo_news_v1') || '[]');
+        list.push({ email: val, ts: Date.now() });
+        localStorage.setItem('demo_news_v1', JSON.stringify(list));
+      }catch(e){ /* ignore */ }
+      alert('Thanks for subscribing!');
+      input.value = '';
+    });
+
+    // Accessibility: allow Enter to activate whatsapp button
+    whatsappBtn.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.open(waUrl, '_blank', 'noopener');
+      }
+    });
+
+    // Update copyright year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

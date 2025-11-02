@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ShopEase — Home</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Variables & base styles
+       ========================= */
+    :root{
+      --bg: #f6fbf8;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --primary: #4CAF50; /* green primary */
+      --primary-dark: #2f7a3f;
+      --radius: 12px;
+      --shadow: 0 12px 36px rgba(15,23,42,0.08);
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; min-height:100vh; background:linear-gradient(180deg,#f0faf3 0%,var(--bg) 60%); color:#0f172a;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* =========================
+       Header / Navbar (sticky)
+       ========================= */
+    header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,0.95); backdrop-filter:blur(6px);
+      border-bottom:1px solid rgba(15,23,42,0.04);
+    }
+    .nav{
+      max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;
+      gap:16px; padding:12px 20px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--primary-dark)}
+    .brand-mark{
+      width:44px;height:44px;border-radius:10px; display:flex;align-items:center;justify-content:center;
+      color:#fff; font-weight:900; background:linear-gradient(135deg,var(--primary),#06b6a4);
+    }
+    nav.primary{display:flex;gap:12px;align-items:center}
+    nav.primary a{padding:8px 10px;border-radius:8px;color:var(--muted);font-weight:600}
+    nav.primary a:hover{color:var(--primary-dark); background:rgba(76,175,80,0.06); transition:all .18s}
+
+    .cta{display:flex;gap:10px;align-items:center}
+    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;border:1px solid rgba(15,23,42,0.06); color:var(--primary-dark)}
+    .btn.primary{background:var(--primary);color:#fff;box-shadow:0 8px 22px rgba(76,175,80,0.12)}
+    @media (max-width:860px){
+      nav.primary{display:none}
+    }
+
+    /* =========================
+       Hero
+       ========================= */
+    .hero{
+      max-width:1200px;margin:24px auto;padding:36px 20px; display:grid; grid-template-columns:1fr 420px; gap:28px; align-items:center;
+    }
+    .hero-card{padding:28px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,255,255,0.9)); box-shadow:var(--shadow)}
+    .hero h1{margin:0 0 12px;font-size:2.1rem;line-height:1.05}
+    .hero p.lead{margin:0 0 18px;color:var(--muted);font-size:1rem}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .hero-visual{
+      height:320px;border-radius:16px;background:
+      linear-gradient(180deg, rgba(76,175,80,0.08), rgba(76,175,80,0.02)),
+      url('https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=b0d6b1b1b6c2c0db9d0b8ef1a8c6ef5c');
+      background-size:cover;background-position:center; display:flex;align-items:flex-end;padding:18px;color:#fff;font-weight:700;
+      box-shadow:var(--shadow);
+    }
+    @media (max-width:980px){ .hero{grid-template-columns:1fr} .hero-visual{height:240px} }
+    @media (max-width:560px){ .hero h1{font-size:1.5rem} }
+
+    /* =========================
+       Categories
+       ========================= */
+    .categories{max-width:1200px;margin:10px auto;padding:0 20px}
+    .cats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .cat{position:relative;overflow:hidden;border-radius:12px;box-shadow:var(--shadow);cursor:pointer}
+    .cat img{width:100%;height:160px;object-fit:cover;transition:transform .35s ease}
+    .cat .caption{position:absolute;left:12px;bottom:12px;color:#fff;font-weight:700;text-shadow:0 4px 18px rgba(3,7,18,0.4)}
+    .cat:hover img{transform:scale(1.06)}
+    @media (max-width:980px){ .cats-grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:520px){ .cats-grid{grid-template-columns:1fr} }
+
+    /* =========================
+       Featured products
+       ========================= */
+    .section{max-width:1200px;margin:24px auto;padding:0 20px}
+    .section .title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .product{background:var(--card);border-radius:12px;padding:12px;box-shadow:var(--shadow);transition:transform .22s,box-shadow .22s;border:1px solid rgba(15,23,42,0.03);cursor:pointer}
+    .product:hover{transform:translateY(-8px);box-shadow:0 22px 50px rgba(15,23,42,0.12);border-color: rgba(76,175,80,0.12)}
+    .product .img{height:160px;border-radius:10px;background-size:cover;background-position:center;margin-bottom:8px}
+    .product .meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .price{font-weight:800;color:var(--primary-dark)}
+    @media (max-width:980px){ .products-grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:640px){ .products-grid{grid-template-columns:1fr} }
+
+    /* =========================
+       Promo / countdown
+       ========================= */
+    .promo{background:linear-gradient(90deg,var(--primary),#06b6a4);color:#fff;padding:14px;border-radius:10px;max-width:1200px;margin:10px auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-left:20px;padding-right:20px}
+    .promo .text{font-weight:700}
+    .promo .timer{font-weight:800;background:rgba(255,255,255,0.12);padding:8px 10px;border-radius:8px}
+
+    /* =========================
+       Testimonials
+       ========================= */
+    .testimonials{max-width:1200px;margin:22px auto;padding:0 20px}
+    .test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .test{background:var(--card);padding:14px;border-radius:12px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:flex-start}
+    .avatar{width:56px;height:56px;border-radius:50%;background-size:cover;background-position:center;flex-shrink:0}
+    @media (max-width:980px){ .test-grid{grid-template-columns:1fr} }
+
+    /* =========================
+       Footer
+       ========================= */
+    footer{background:linear-gradient(180deg,#ffffff,var(--bg));padding:28px 20px;border-top:1px solid rgba(15,23,42,0.04);margin-top:30px}
+    .footer-inner{max-width:1200px;margin:0 auto;display:flex;gap:20px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+    .newsletter{display:flex;gap:8px;align-items:center}
+    .newsletter input{padding:10px 12px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);outline:0}
+    .socials{display:flex;gap:10px;align-items:center}
+    .socials a{width:40px;height:40px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(76,175,80,0.06);color:var(--primary-dark)}
+
+    /* Utilities & animations */
+    .fade-in{opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s ease}
+    .fade-in.visible{opacity:1;transform:none}
+    .muted{color:var(--muted)}
+  </style>
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header>
+    <div class="nav">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="brand" aria-label="ShopEase logo">
+          <div class="brand-mark" aria-hidden="true">SE</div>
+          <div>ShopEase</div>
+        </div>
+      </div>
+
+      <nav class="primary" aria-label="Primary navigation">
+        <a href="#home">Home</a>
+        <a href="prod.html">Products</a>
+        <a href="deals.html">Deals</a>
+        <a href="about.html">About</a>
+        <a href="cont.html">Contact</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home" aria-label="Hero section">
+    <div class="hero-card fade-in" id="heroCard">
+      <!-- Headline and CTA -->
+      <h1>Shop Smarter. Live Better.</h1>
+      <p class="lead">Find amazing deals on the products you love.</p>
+      <div class="hero-actions">
+        <button class="btn primary" id="startShopping">Start Shopping</button>
+        <button class="btn ghost" id="viewDeals">View Deals</button>
+      </div>
+      <div style="margin-top:14px;color:var(--muted)">Free returns • Fast shipping • Secure payments</div>
+    </div>
+
+    <div class="hero-visual fade-in" aria-hidden="true" id="heroVisual">
+      <div style="background:linear-gradient(90deg, rgba(0,0,0,0.18), transparent); padding:12px; border-radius:8px;">
+        Best picks this week
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="categories" id="categories" aria-label="Featured categories">
+    <div style="max-width:1200px;margin:0 auto;padding:0 20px">
+      <h2 style="margin:0 0 12px">Featured Categories</h2>
+    </div>
+    <div class="cats-grid fade-in" id="catsGrid">
+      <div class="cat" data-cat="Electronics" role="button" tabindex="0">
+        <img src="https://images.unsplash.com/photo-1510557880182-3cf0b0f7f4b8?q=80&w=800&auto=format&fit=crop" alt="Electronics">
+        <div class="caption">Electronics</div>
+      </div>
+      <div class="cat" data-cat="Fashion" role="button" tabindex="0">
+        <img src="https://images.unsplash.com/photo-1520975917909-8f7b1b79b6b0?q=80&w=800&auto=format&fit=crop" alt="Fashion">
+        <div class="caption">Fashion</div>
+      </div>
+      <div class="cat" data-cat="Beauty" role="button" tabindex="0">
+        <img src="https://images.unsplash.com/photo-1503342452485-86a9bfb8b8a5?q=80&w=800&auto=format&fit=crop" alt="Beauty">
+        <div class="caption">Beauty</div>
+      </div>
+      <div class="cat" data-cat="Home" role="button" tabindex="0">
+        <img src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?q=80&w=800&auto=format&fit=crop" alt="Home">
+        <div class="caption">Home</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promo / Countdown -->
+  <section class="promo fade-in" id="deals">
+    <div class="text">Flash Sale: Up to 50% Off Today Only!</div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <div class="timer" id="countdown" aria-live="polite">00:00:00</div>
+      <button class="btn ghost" id="shopFlash">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- Featured products -->
+  <section class="section" id="featured">
+    <div class="title-row">
+      <h2 style="margin:0">Featured Products</h2>
+      <div class="muted">Hand-picked items you'll love</div>
+    </div>
+    <div class="products-grid fade-in" id="productsGrid">
+      <!-- 6 product cards (data-id used for redirect) -->
+      <div class="product" data-id="p001" role="button" tabindex="0">
+        <div class="img" style="background-image:url('https://picsum.photos/id/21/800/600')"></div>
+        <div>
+          <div style="font-weight:700">Comfy Sneakers</div>
+          <div class="muted" style="font-size:0.92rem">Cushioned everyday sneakers.</div>
+          <div class="meta" style="margin-top:8px">
+            <div class="price">$79</div>
+            <button class="btn view" data-id="p001">View Product</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product" data-id="p002" role="button" tabindex="0">
+        <div class="img" style="background-image:url('https://picsum.photos/id/1011/800/600')"></div>
+        <div>
+          <div style="font-weight:700">Classic Watch</div>
+          <div class="muted" style="font-size:0.92rem">Timeless leather strap.</div>
+          <div class="meta" style="margin-top:8px">
+            <div class="price">$129</div>
+            <button class="btn view" data-id="p002">View Product</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product" data-id="p003" role="button" tabindex="0">
+        <div class="img" style="background-image:url('https://picsum.photos/id/1060/800/600')"></div>
+        <div>
+          <div style="font-weight:700">Noise Headphones</div>
+          <div class="muted" style="font-size:0.92rem">Active noise cancellation.</div>
+          <div class="meta" style="margin-top:8px">
+            <div class="price">$199</div>
+            <button class="btn view" data-id="p003">View Product</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product" data-id="p004" role="button" tabindex="0">
+        <div class="img" style="background-image:url('https://picsum.photos/id/180/800/600')"></div>
+        <div>
+          <div style="font-weight:700">Everyday Backpack</div>
+          <div class="muted" style="font-size:0.92rem">Durable and laptop-friendly.</div>
+          <div class="meta" style="margin-top:8px">
+            <div class="price">$59</div>
+            <button class="btn view" data-id="p004">View Product</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product" data-id="p005" role="button" tabindex="0">
+        <div class="img" style="background-image:url('https://picsum.photos/id/25/800/600')"></div>
+        <div>
+          <div style="font-weight:700">Smart Mug</div>
+          <div class="muted" style="font-size:0.92rem">Keeps drinks perfect.</div>
+          <div class="meta" style="margin-top:8px">
+            <div class="price">$39</div>
+            <button class="btn view" data-id="p005">View Product</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product" data-id="p006" role="button" tabindex="0">
+        <div class="img" style="background-image:url('https://picsum.photos/id/30/800/600')"></div>
+        <div>
+          <div style="font-weight:700">Desk Lamp</div>
+          <div class="muted" style="font-size:0.92rem">Adjustable brightness.</div>
+          <div class="meta" style="margin-top:8px">
+            <div class="price">$29</div>
+            <button class="btn view" data-id="p006">View Product</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="about">
+    <div style="max-width:1200px;margin:0 auto;padding:0 20px">
+      <h2 style="margin:0 0 12px">What customers say</h2>
+    </div>
+    <div class="test-grid fade-in" id="testGrid">
+      <div class="test">
+        <div class="avatar" style="background-image:url('https://randomuser.me/api/portraits/women/44.jpg')"></div>
+        <div>
+          <div style="font-weight:700">Maya R.</div>
+          <div class="muted">"Fast delivery and the quality exceeded my expectations."</div>
+        </div>
+      </div>
+
+      <div class="test">
+        <div class="avatar" style="background-image:url('https://randomuser.me/api/portraits/men/32.jpg')"></div>
+        <div>
+          <div style="font-weight:700">Ethan P.</div>
+          <div class="muted">"Great deals and responsive customer support."</div>
+        </div>
+      </div>
+
+      <div class="test">
+        <div class="avatar" style="background-image:url('https://randomuser.me/api/portraits/women/65.jpg')"></div>
+        <div>
+          <div style="font-weight:700">Sara L.</div>
+          <div class="muted">"Smooth checkout and excellent product selection."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="brand-mark" style="height:36px;width:36px;font-size:0.9rem">SE</div>
+          <div style="font-weight:700">ShopEase</div>
+        </div>
+        <div class="muted">© <span id="year"></span> ShopEase. All rights reserved.</div>
+      </div>
+
+      <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+        <nav aria-label="footer links" style="display:flex;gap:12px;align-items:center">
+          <a href="#about">About</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="newsletter">
+          <input id="newsletterEmail" type="email" placeholder="Your email" aria-label="Newsletter email">
+          <button id="subscribeBtn" class="btn primary">Subscribe</button>
+        </div>
+
+        <div class="socials" aria-label="Social links">
+          <a href="#" title="Facebook" aria-label="Facebook">F</a>
+          <a href="#" title="Instagram" aria-label="Instagram">I</a>
+          <a href="#" title="Twitter" aria-label="Twitter">T</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* =========================
+       JavaScript:
+       - Smooth scroll for nav links
+       - Redirects to product page (prod.html) with id
+       - Countdown timer for promo
+       - Simple animations reveal
+       - Newsletter subscribe (demo)
+       ========================= */
+
+    // Smooth scroll behavior already enabled via CSS (scroll-behavior), add click handlers for anchor links
+    document.querySelectorAll('nav.primary a[href^="#"], footer a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href');
+        if(href && href.startsWith('#')){
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+
+    // Update year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Redirect to products page when Start Shopping or Shop Now clicked
+    function goToProducts(q){
+      // Use prod.html (existing file in workspace)
+      const url = 'prod.html' + (q ? ('?q=' + encodeURIComponent(q)) : '');
+      location.href = url;
+    }
+    document.getElementById('startShopping').addEventListener('click', ()=> goToProducts());
+    document.getElementById('shopFlash').addEventListener('click', ()=> goToProducts('sale'));
+
+    // Redirect to product details when "View Product" or clicking product card
+    document.querySelectorAll('.product').forEach(card=>{
+      const id = card.dataset.id;
+      card.addEventListener('click', (e)=>{
+        // if a button handled it, let it handle; otherwise navigate
+        if(e.target.closest('.view')) return;
+        location.href = `prod.html?id=${encodeURIComponent(id)}`;
+      });
+      const btn = card.querySelector('.view');
+      if(btn) btn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        location.href = `prod.html?id=${encodeURIComponent(btn.dataset.id)}`;
+      });
+    });
+    // ...existing code...
+    // Redirect to products page when Start Shopping or Shop Now clicked
+    function goToProducts(q){
+      // Use prod.html (existing file in workspace)
+      const url = 'prod.html' + (q ? ('?q=' + encodeURIComponent(q)) : '');
+      location.href = url;
+    }
+    document.getElementById('startShopping').addEventListener('click', ()=> goToProducts());
+    document.getElementById('shopFlash').addEventListener('click', ()=> goToProducts('sale'));
+
+    // NEW: Redirect "View Deals" button to deals.html (preserve other behavior)
+    (function(){
+      const viewDealsBtn = document.getElementById('viewDeals');
+      if(viewDealsBtn){
+        viewDealsBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          // navigate to deals page
+          window.location.href = 'deals.html';
+        });
+      }
+    })();
+
+    // Redirect to product details when "View Product" or clicking product card
+    document.querySelectorAll('.product').forEach(card=>{
+      const id = card.dataset.id;
+      card.addEventListener('click', (e)=>{
+        // if a button handled it, let it handle; otherwise navigate
+        if(e.target.closest('.view')) return;
+        location.href = `prod.html?id=${encodeURIComponent(id)}`;
+      });
+      const btn = card.querySelector('.view');
+      if(btn) btn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        location.href = `prod.html?id=${encodeURIComponent(btn.dataset.id)}`;
+      });
+    });
+    // ...existing code...
+
+    // Categories click -> go to products filtered by category (demo)
+    document.querySelectorAll('.cat').forEach(c=>{
+      c.addEventListener('click', ()=> goToProducts(c.dataset.cat));
+      c.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') goToProducts(c.dataset.cat); });
+    });
+
+    // =========================
+    // Countdown timer (simple): counts down to today's end (midnight) or a fixed future time
+    // For demo: set end time to 12 hours from now
+    // =========================
+    function startCountdown(elId, endTs){
+      const el = document.getElementById(elId);
+      function update(){
+        const now = Date.now();
+        let diff = Math.max(0, endTs - now);
+        const hrs = Math.floor(diff / (1000*60*60)); diff -= hrs * (1000*60*60);
+        const mins = Math.floor(diff / (1000*60)); diff -= mins * (1000*60);
+        const secs = Math.floor(diff / 1000);
+        el.textContent = `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+        if(endTs - now <= 0) clearInterval(timer);
+      }
+      update();
+      const timer = setInterval(update, 1000);
+    }
+    // Set timer to 12 hours from now (demo)
+    startCountdown('countdown', Date.now() + (1000 * 60 * 60 * 12));
+
+    // =========================
+    // Fade-in reveal using IntersectionObserver
+    // =========================
+    const revealEls = document.querySelectorAll('.fade-in');
+    const io = new IntersectionObserver((entries, obs)=>{
+      entries.forEach(ent=>{
+        if(ent.isIntersecting){
+          ent.target.classList.add('visible');
+          obs.unobserve(ent.target);
+        }
+      });
+    }, {threshold: 0.12});
+    revealEls.forEach(el => io.observe(el));
+
+    // =========================
+    // Newsletter subscribe (demo): store in localStorage and show simple feedback
+    // =========================
+    document.getElementById('subscribeBtn').addEventListener('click', ()=>{
+      const input = document.getElementById('newsletterEmail');
+      const email = (input.value || '').trim();
+      if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        alert('Please enter a valid email.');
+        return;
+      }
+      const list = JSON.parse(localStorage.getItem('demo_news_v1') || '[]');
+      list.push({ email, ts: Date.now() });
+      localStorage.setItem('demo_news_v1', JSON.stringify(list));
+      alert('Thanks for subscribing!');
+      input.value = '';
+    });
+
+    // Optional: keyboard shortcut 's' to jump to products
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === 's' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        document.getElementById('categories').scrollIntoView({behavior:'smooth'});
+      }
+    });
+  </script>
+</body>
+</html>
