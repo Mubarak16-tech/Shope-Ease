@@ -104,20 +104,62 @@
     .footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:0 20px}
     .newsletter{display:flex;gap:8px;align-items:center}
     .newsletter input{padding:10px;border-radius:10px;border:1px solid rgba(10,20,30,0.06)}
+
+    /* Add to your mobile styles section */
+.hamburger {
+  display: none;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  color: var(--primary-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 860px) {
+  .hamburger {
+    display: block;
+  }
+
+  nav.primary {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: transparent;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-top: 1px solid rgba(15,23,42,0.04);
+  }
+
+  nav.primary a {
+    display: block;
+    padding: 12px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .nav.open nav.primary {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
   </style>
 </head>
 <body>
   <!-- Header -->
   <header>
-    <div class="nav">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="brand" aria-label="ShopEase">
-          <div class="brand-mark" aria-hidden="true">SE</div>
-          <div>ShopEase</div>
-        </div>
-      </div>
 
-      <nav class="primary" aria-label="Main navigation">
+    <div class="nav">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="brand" aria-label="ShopEase logo">
+      <div class="brand-mark" aria-hidden="true">SE</div>
+      <div>ShopEase</div>
+    </div>
+  </div>
+        <nav class="primary" aria-label="Main navigation">
         <a href="home.html">Home</a>
         <a href="prod.html">Products</a>
         <a href="deals.html">Deals</a>
@@ -126,7 +168,17 @@
         <a href="cart.html">Cart</a>
       </nav>
 
-    </div>
+  <!-- Add hamburger button -->
+  <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <nav class="primary" aria-label="Main navigation">
+    <!-- ...existing nav links... -->
+  </nav>
+</div>
   </header>
 
   <!-- Hero / Banner with global countdown -->
@@ -427,6 +479,36 @@
     // animate cards on load: small stagger (already set via animationDelay on render)
     // update year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Add to your existing JavaScript
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.querySelector('.hamburger');
+  const nav = document.querySelector('.nav');
+
+  if (hamburger && nav) {
+    hamburger.addEventListener('click', () => {
+      nav.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', 
+        nav.classList.contains('open').toString());
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close menu when window is resized
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 860 && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+});
   </script>
 </body>
 </html>
