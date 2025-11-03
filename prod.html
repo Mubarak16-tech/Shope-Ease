@@ -104,6 +104,30 @@
     /* small util */
     .muted{ color:var(--muted) }
 
+/* Update the prod-img class in your CSS */
+.prod-img {
+  width: 100%;
+  height: 240px;  /* increased height for better visibility */
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.prod-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .prod-img img {
+  transform: scale(1.05);
+}
+
+
     /* Responsive utilities (mobile-first)
    Use this snippet across all pages (include in a shared stylesheet).
    - Mobile-first: base styles apply to small screens, then scale up.
@@ -280,7 +304,7 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
     display: block;
   }
 
-  nav.primary {
+nav.primary {
     display: none;
     position: absolute;
     top: 100%;
@@ -292,19 +316,30 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
     border-top: 1px solid rgba(15,23,42,0.04);
   }
 
+  
+  .nav.open nav.primary {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    background: white; /* Ensure white background */
+  }
+
   nav.primary a {
     display: block;
     padding: 12px;
     text-align: center;
     width: 100%;
+    background: white; /* White background for each link */
+    transition: background-color 0.2s ease;
   }
 
-  .nav.open nav.primary {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+   nav.primary a:hover {
+    background: rgba(76,175,80,0.06); /* Keep the hover effect */
   }
 }
+
+
 
 /* Notes:
    - Add a small JS toggle to toggle '.nav.open' when hamburger is clicked:
@@ -324,7 +359,7 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
       <div class="brand-mark" aria-hidden="true">SE</div>
       <div>ShopEase</div>
     </div>
-         <nav class="primary" aria-label="Main navigation">
+         <nav class="primary" aria-label="Main navigation" style="margin-left: 40px;">
         <a href="home.html">Home</a>
         <a href="prod.html">Products</a>
         <a href="cart.html">Cart</a>
@@ -364,21 +399,37 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
     <section id="productList">
       <div id="grid" class="grid">
         <!-- Product 1 -->
-        <article class="card" data-id="p001" data-name="Comfy Sneakers">
-          <div class="prod-img" style="background-image:url('https://picsum.photos/id/21/800/600')"></div>
-          <div>
-            <div class="prod-title">Comfy Sneakers</div>
-            <div class="prod-desc">Cushioned sole and breathable upper for everyday comfort.</div>
-            <div class="prod-meta">
-              <div class="price">$79</div>
-              <button class="btn view-btn" data-id="p001">View Details</button>
+         <!-- Update each product card's image section. Here's an example for the first product: -->
+         <article class="card" data-id="p001" data-name="Comfy Sneakers">
+           <div class="prod-img">
+             <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" 
+               alt="Comfy Sneakers" 
+               loading="lazy">
             </div>
-          </div>
-        </article>
+             <div>
+              <div class="prod-title">Comfy Sneakers</div>
+              <div class="prod-desc">Cushioned sole and breathable upper for everyday comfort.</div>
+              <div class="prod-meta">
+                <div class="price">$79</div>
+                <button class="btn view-btn" data-id="p001">View Details</button>
+              </div>
+             </div>
+ 
+          </article>
+       
+          
+       
 
         <!-- Product 2 -->
+        
+        <!-- Update each product card's image section. Here's an example for the first product: -->
         <article class="card" data-id="p002" data-name="Classic Watch">
-          <div class="prod-img" style="background-image:url('https://picsum.photos/id/1011/800/600')"></div>
+          <div class="prod-img">
+           <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314"
+            alt="Classic Watch" 
+            loading="lazy">
+          </div>
+
           <div>
             <div class="prod-title">Classic Watch</div>
             <div class="prod-desc">Timeless leather strap with a water-resistant case.</div>
@@ -390,8 +441,15 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
         </article>
 
         <!-- Product 3 -->
-        <article class="card" data-id="p003" data-name="Noise Headphones">
-          <div class="prod-img" style="background-image:url('https://picsum.photos/id/1060/800/600')"></div>
+      
+                <!-- Update each product card's image section. Here's an example for the first product: -->
+        <article class="card" data-id="p003" data-name="Comfy Sneakers">
+             <div class="prod-img">
+               <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
+                 alt="Noise Headphones" 
+                  loading="lazy">
+              </div>
+  
           <div>
             <div class="prod-title">Noise Headphones</div>
             <div class="prod-desc">Active noise cancellation and long battery life.</div>
@@ -403,8 +461,15 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
         </article>
 
         <!-- Product 4 -->
+        
+          <!-- Update each product card's image section. Here's an example for the first product: -->
         <article class="card" data-id="p004" data-name="Everyday Backpack">
-          <div class="prod-img" style="background-image:url('https://picsum.photos/id/180/800/600')"></div>
+          <div class="prod-img">
+            <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62" 
+               alt="Everyday Backpack" 
+               loading="lazy">
+          </div>
+ 
           <div>
             <div class="prod-title">Everyday Backpack</div>
             <div class="prod-desc">Durable, water-resistant, and laptop-friendly compartments.</div>
@@ -416,8 +481,14 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
         </article>
 
         <!-- Product 5 -->
+        <!-- Update each product card's image section. Here's an example for the first product: -->
         <article class="card" data-id="p005" data-name="Smart Mug">
-          <div class="prod-img" style="background-image:url('https://picsum.photos/id/25/800/600')"></div>
+          <div class="prod-img">
+           <img src="https://picsum.photos/id/30/800/600" 
+            alt="Smart Mug" 
+            loading="lazy">
+          </div>
+
           <div>
             <div class="prod-title">Smart Mug</div>
             <div class="prod-desc">Keeps beverages at the perfect temperature for hours.</div>
@@ -429,8 +500,14 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
         </article>
 
         <!-- Product 6 -->
+        <!-- Update each product card's image section. Here's an example for the first product: -->
         <article class="card" data-id="p006" data-name="Desk Lamp">
-          <div class="prod-img" style="background-image:url('https://picsum.photos/id/30/800/600')"></div>
+          <div class="prod-img">
+           <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c"
+           alt="Desk Lamp" 
+            loading="lazy">
+          </div>
+
           <div>
             <div class="prod-title">Desk Lamp</div>
             <div class="prod-desc">Adjustable brightness with sleek modern design.</div>
@@ -589,6 +666,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+  // Add to your existing JavaScript
+  document.querySelectorAll('.prod-img img').forEach(img => {
+    img.onerror = function() {
+      this.src = 'https://via.placeholder.com/400x300?text=Product+Image';
+    };
+  });
   </script>
 </body>
 </html>

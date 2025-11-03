@@ -267,7 +267,7 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
     display: block;
   }
 
-  nav.primary {
+nav.primary {
     display: none;
     position: absolute;
     top: 100%;
@@ -279,17 +279,26 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
     border-top: 1px solid rgba(15,23,42,0.04);
   }
 
+  
+  .nav.open nav.primary {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    background: white; /* Ensure white background */
+  }
+
   nav.primary a {
     display: block;
     padding: 12px;
     text-align: center;
     width: 100%;
+    background: white; /* White background for each link */
+    transition: background-color 0.2s ease;
   }
 
-  .nav.open nav.primary {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+   nav.primary a:hover {
+    background: rgba(76,175,80,0.06); /* Keep the hover effect */
   }
 }
 /* Notes:

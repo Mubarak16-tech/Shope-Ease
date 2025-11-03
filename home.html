@@ -326,17 +326,26 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
     border-top: 1px solid rgba(15,23,42,0.04);
   }
 
+  
+  .nav.open nav.primary {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    background: white; /* Ensure white background */
+  }
+
   nav.primary a {
     display: block;
     padding: 12px;
     text-align: center;
     width: 100%;
+    background: white; /* White background for each link */
+    transition: background-color 0.2s ease;
   }
 
-  .nav.open nav.primary {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+   nav.primary a:hover {
+    background: rgba(76,175,80,0.06); /* Keep the hover effect */
   }
 }
 /* Notes:
@@ -408,15 +417,15 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
     </div>
     <div class="cats-grid fade-in" id="catsGrid">
       <div class="cat" data-cat="Electronics" role="button" tabindex="0">
-        <img src="https://images.unsplash.com/photo-1510557880182-3cf0b0f7f4b8?q=80&w=800&auto=format&fit=crop" alt="Electronics">
+        <img src= "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop" alt="Electronics">
         <div class="caption">Electronics</div>
       </div>
       <div class="cat" data-cat="Fashion" role="button" tabindex="0">
-        <img src="https://images.unsplash.com/photo-1520975917909-8f7b1b79b6b0?q=80&w=800&auto=format&fit=crop" alt="Fashion">
+        <img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=800&auto=format&fit=crop" alt="Fashion">
         <div class="caption">Fashion</div>
       </div>
       <div class="cat" data-cat="Beauty" role="button" tabindex="0">
-        <img src="https://images.unsplash.com/photo-1503342452485-86a9bfb8b8a5?q=80&w=800&auto=format&fit=crop" alt="Beauty">
+        <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=800&auto=format&fit=crop" alt="Beauty">
         <div class="caption">Beauty</div>
       </div>
       <div class="cat" data-cat="Home" role="button" tabindex="0">
@@ -444,7 +453,7 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
     <div class="products-grid fade-in" id="productsGrid">
       <!-- 6 product cards (data-id used for redirect) -->
       <div class="product" data-id="p001" role="button" tabindex="0">
-        <div class="img" style="background-image:url('https://picsum.photos/id/21/800/600')"></div>
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1542291026-7eec264c27ff')"></div>
         <div>
           <div style="font-weight:700">Comfy Sneakers</div>
           <div class="muted" style="font-size:0.92rem">Cushioned everyday sneakers.</div>
@@ -456,7 +465,7 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
       </div>
 
       <div class="product" data-id="p002" role="button" tabindex="0">
-        <div class="img" style="background-image:url('https://picsum.photos/id/1011/800/600')"></div>
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1524592094714-0f0654e20314')"></div>
         <div>
           <div style="font-weight:700">Classic Watch</div>
           <div class="muted" style="font-size:0.92rem">Timeless leather strap.</div>
@@ -468,7 +477,7 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
       </div>
 
       <div class="product" data-id="p003" role="button" tabindex="0">
-        <div class="img" style="background-image:url('https://picsum.photos/id/1060/800/600')"></div>
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e')"></div>
         <div>
           <div style="font-weight:700">Noise Headphones</div>
           <div class="muted" style="font-size:0.92rem">Active noise cancellation.</div>
@@ -480,7 +489,7 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
       </div>
 
       <div class="product" data-id="p004" role="button" tabindex="0">
-        <div class="img" style="background-image:url('https://picsum.photos/id/180/800/600')"></div>
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1553062407-98eeb64c6a62')"></div>
         <div>
           <div style="font-weight:700">Everyday Backpack</div>
           <div class="muted" style="font-size:0.92rem">Durable and laptop-friendly.</div>
@@ -492,7 +501,7 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
       </div>
 
       <div class="product" data-id="p005" role="button" tabindex="0">
-        <div class="img" style="background-image:url('https://picsum.photos/id/25/800/600')"></div>
+        <div class="img" style="background-image:url('https://picsum.photos/id/30/800/600')"></div>
         <div>
           <div style="font-weight:700">Smart Mug</div>
           <div class="muted" style="font-size:0.92rem">Keeps drinks perfect.</div>
@@ -504,7 +513,7 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
       </div>
 
       <div class="product" data-id="p006" role="button" tabindex="0">
-        <div class="img" style="background-image:url('https://picsum.photos/id/30/800/600')"></div>
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1507473885765-e6ed057f782c')"></div>
         <div>
           <div style="font-weight:700">Desk Lamp</div>
           <div class="muted" style="font-size:0.92rem">Adjustable brightness.</div>
@@ -565,7 +574,7 @@ button:focus, a:focus { outline: 3px solid rgba(76,175,80,0.14); outline-offset:
           <a href="#about">About</a>
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
-          <a href="#contact">Contact</a>
+          <a href="cont">Contact</a>
         </nav>
 
         <div class="newsletter">
